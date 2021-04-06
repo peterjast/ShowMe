@@ -17,30 +17,34 @@ class Trending extends React.Component {
             displayMovies: false,
             displayShows: false,
             displayDetails: false,
-            currentMovie: {}
+            currentMovie: {},
+            show: false
         }
     }
 
-    async componentDidMount() {
-        try{
+    componentDidMount = () => {
             const SERVER = process.env.REACT_APP_SERVER;
+            axios.get(`${SERVER}/movies`)
+            .then(movies => {
+                this.setState({ 
+                    trendingMovies: movies.data.movieArray,
+                    displayMovies: true
+                })
+                console.log('movies:', movies);
+                console.log('moviesdata', movies.data);
+            })
+            .catch(err => {console.log(err.message)})
 
-            const movies = await axios.get(`${SERVER}/movies`);
-            const trendingMovies = movies.data;
-
-            const shows = await axios.get(`${SERVER}/shows`);
-            const trendingShows = shows.data;
-
-            this.setState({
-                trendingMovies,
-                trendingShows,
-                displayMovies: true,
-                displayShows: true,
-                displayDetails: false
-            });
-        } catch(err) {
-            console.log(err);
-        } 
+            axios.get(`${SERVER}/shows`)
+            .then(shows => {
+                this.setState({
+                    trendingShows: shows.data.showArray,
+                    displayShows: true
+                })
+                console.log('shows:', shows);
+                console.log('shows:', shows.data);
+            })
+            .catch(err => {console.log(err.message)})
     }
 
     handleClose = () => {
@@ -51,12 +55,18 @@ class Trending extends React.Component {
         this.setState({ show: true, currentMovie: movie });
       }
 
-    render() {
+    addMovie = () => {
+        console.log('this is where I would add a movie');
+    }  
+
+    // <AddMovie index={i} addMovie={this.addMovie}/> <Button inline index={i} onClick={this.displayDetails(movie)}>Details</Button>
+    // <AddMovie index={i} addMovie={this.addMovie}/> <Button inline index={i} onClick={this.displayDetails(show)}>Details</Button>
+    render(){
         return(
             <>
             <Container>
             <Row>
-            {this.state.displayMovies &&     
+            {this.state.displayMovies &&    
             <Carousel className="w-50 mx-auto">
             {this.state.trendingMovies.map((movie, i) => (
               movie.poster_path &&  
@@ -68,7 +78,7 @@ class Trending extends React.Component {
                     />
                 <Carousel.Caption>
                 <h3>{movie.title}</h3>
-                <p><AddMovie inline index={i} addMovie={this.props.addMovie}/> <Button inline index={i} onClick={this.displayDetails(movie)}>Details</Button></p>
+                <p>filler</p>
                 </Carousel.Caption>
               </Carousel.Item> 
             ))}
@@ -84,12 +94,12 @@ class Trending extends React.Component {
               <Carousel.Item key={i}>
                 <img
                     className="d-block w-100"
-                    src={`https://www.themoviedb.org/t/p/original${show.poster_path}`}
+                    src={`https://www.themoviedb.org/t/p/original/${show.poster_path}`}
                     alt={show.title}
                     />
                 <Carousel.Caption>
                 <h3>{show.title}</h3>
-                <p><AddMovie inline index={i} addMovie={this.props.addMovie}/> <Button inline index={i} onClick={this.displayDetails(show)}>Details</Button></p>
+                <p>filler</p>
                 </Carousel.Caption>
               </Carousel.Item> 
             ))}

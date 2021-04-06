@@ -3,6 +3,7 @@ import axios from 'axios';
 import Trending from './Trending.js';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Card';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Dashboard extends React.Component {
     constructor(props){

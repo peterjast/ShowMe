@@ -3,9 +3,9 @@ import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Carousel from 'react-bootstrap/Carousel';
 import Container from 'react-bootstrap/Container';
-import AddMovie from './AddMovie.js';
+// import AddMovie from './AddMovie.js';
 import DetailsModal from './DetailsModal';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Trending extends React.Component {

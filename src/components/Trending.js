@@ -5,7 +5,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import Container from 'react-bootstrap/Container';
 import AddMovie from './AddMovie.js';
 import DetailsModal from './DetailsModal';
-import Button from './react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
 
 class Trending extends React.Component {
     constructor(props){

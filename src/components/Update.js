@@ -1,21 +1,20 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 
-class Update extends React.Component {
+class AddBook extends React.Component {
   render(){
     return(
-      <Button 
-        className="bg-info text-light"
-        style={{
-          position: 'absolute',
-          right: -25,
-          top: -20,
-        }} 
-        onClick={() => this.props.displayUpdateForm(this.props.index)}>
-        Update
+      <Button style={{float: 'right'}} className="float-right mr-5 bg-info" onClick={(e)=>{
+          this.props.showUpdateForm();
+          this.props.updateCommentId(this.props.id);
+          this.props.updateMovieId(this.props.movieId)
+          }
+        }
+      >
+      Edit
       </Button>
     )
   }
 }
 
-export default Update;
+export default AddBook;

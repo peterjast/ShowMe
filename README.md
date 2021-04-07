@@ -72,3 +72,15 @@ Often.
 How will you communicate that it’s time to merge?
 
 We will have all reviewed the code.
+
+---
+
+## Domain Model
+
+![Domain Model](src/assets/domainModel.png)
+
+---
+
+## Wireframe
+
+![WireFrame](src/assets/wireframe.png)

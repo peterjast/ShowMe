@@ -44,7 +44,10 @@ class Dashboard extends React.Component {
                     <button className="w-25 p3" type="submit">Search</button>
                 </form>
                 {!this.state.displaySearchResults ?
-                <Trending /> 
+                <Trending 
+                    addMovie={this.props.addMovie}
+                    email={this.props.properties.auth0.user.email}
+                /> 
                 :
                 this.state.searchResults.map((mediaObj, index) => (
                     mediaObj.poster_path &&

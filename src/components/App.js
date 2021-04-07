@@ -17,105 +17,111 @@ import {
 } from "react-router-dom";
 
 class App extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            watchList:[]
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      watchList: []
     }
+  }
 
-    getUser = () => {
-        const SERVER = process.env.REACT_APP_SERVER;
-        axios.get(`${SERVER}/watchlist`, { params: {email: this.props.auth0.user.email}})
-            .then(watchList => {
-                this.setState({ watchList: watchList.data });
-                console.log('watchList', watchList.data);   
-            })
-            .catch(error => {console.log(error.message)})
+  getUser = () => {
+    const SERVER = process.env.REACT_APP_SERVER;
+    axios.get(`${SERVER}/watchlist`, { params: { email: this.props.auth0.user.email } })
+      .then(watchList => {
+        this.setState({ watchList: watchList.data });
+        console.log('watchList', watchList.data);
+      })
+      .catch(error => { console.log(error.message) })
+  }
+
+  addComment = async (e, rating, comment, id) => {
+    e.preventDefault();
+    try {
+      const server = process.env.REACT_APP_SERVER;
+      const watchList = await axios.post(`${server}/watchlist`, { rating, comment, id, email: this.props.auth0.user.email });
+      this.setState({ watchList: watchList.data });
+    } catch (err) {
+      console.log(err.message);
     }
+  }
 
-    addComment = async(e, rating, comment, id) => {
-        e.preventDefault();
-        try {
-          const server = process.env.REACT_APP_SERVER;
-          const watchList = await axios.post(`${server}/watchlist`, {rating, comment, id, email: this.props.auth0.user.email});
-          this.setState({ watchList: watchList.data });
-        } catch (err) {
-          console.log(err.message);
-        }
+  //     app.post('/watchlist', Data.addComment);
+  // app.put('/watchlist/:movieId/:id', Data.updateComment);
+  // app.delete('/watchlist/movie/:movieId', Data.deleteMovie);
+  // app.delete('/watchlist/:movieId/:id', Data.deleteComment);
+
+  deleteComment = async (movieId, id) => {
+    try {
+      const server = process.env.REACT_APP_SERVER;
+      const newMovies = await axios.delete(`${server}/watchlist/${movieId}/${id}`, { params: { email: this.props.auth0.user.email } });
+      console.log(newMovies);
+      const newMovieArr = newMovies.data;
+      console.log(newMovieArr);
+      this.setState({ watchList: newMovieArr });
+    } catch (err) {
+      console.log(err.message);
     }
+  };
 
-//     app.post('/watchlist', Data.addComment);
-// app.put('/watchlist/:movieId/:id', Data.updateComment);
-// app.delete('/watchlist/movie/:movieId', Data.deleteMovie);
-// app.delete('/watchlist/:movieId/:id', Data.deleteComment);
-
-    deleteComment = async(movieId, id) => {
-        try{
-            const server = process.env.REACT_APP_SERVER;
-            const newMovies = await axios.delete(`${server}/watchlist/${movieId}/${id}`, {params: {email: this.props.auth0.user.email}});
-            console.log(newMovies);
-            const newMovieArr = newMovies.data;
-            console.log(newMovieArr);
-            this.setState({ watchList: newMovieArr });
-        } catch(err){
-            console.log(err.message);
-        }
-    };
-
-    updateComment = async(e, comment, user_rating, movieId, id) => {
-        e.preventDefault();
-        try{
-            const server = process.env.REACT_APP_SERVER;
-            const newMovies = await axios.put(`${server}/watchlist/${movieId}/${id}`, {params: {email: this.props.auth0.user.email}}, {comment, user_rating})
-            const newMovieArr = newMovies.data;
-            console.log(newMovieArr);
-            this.setState({ watchList: newMovieArr });
-        } catch(err){
-            console.log(err.message);
-        }
-    }  
-
-    addMovie = async (e, title, overview, poster_path, release_date, rating) => {
-        e.preventDefault();
-        try {
-          const server = process.env.REACT_APP_SERVER;
-          const watchList = await axios.post(`${server}/watchlist/movie`, {title, overview, poster_path, release_date, rating, email: this.props.auth0.user.email});
-          this.setState({ watchList: watchList.data });
-        } catch (err) {
-          console.log(err.message);
-        }
+  updateComment = async (e, comment, user_rating, movieId, id) => {
+    e.preventDefault();
+    try {
+      const server = process.env.REACT_APP_SERVER;
+      const newMovies = await axios.put(`${server}/watchlist/${movieId}/${id}`, { params: { email: this.props.auth0.user.email } }, { comment, user_rating })
+      const newMovieArr = newMovies.data;
+      console.log(newMovieArr);
+      this.setState({ watchList: newMovieArr });
+    } catch (err) {
+      console.log(err.message);
     }
-    
-    deleteMovie = async(movieId) => {
-        const server = process.env.REACT_APP_SERVER;
-        const newMovies = await axios.delete(`${server}/watchlist/movie/${movieId}`, {params: {email: this.props.auth0.user.email}});
-        console.log(newMovies);
-        const newMovieArr = this.state.watchList.filter((movie) => movie._id !== movieId);
-        console.log(newMovieArr);
-        this.setState({ watchList: newMovieArr });
-    }
+  }
 
+  addMovie = async (e, title, overview, poster_path, release_date, rating, email) => {
+    e.preventDefault();
+    console.log(this.props.auth0.user.email);
+    console.log(title, overview, poster_path, release_date, rating, email);
+    try {
+      const server = process.env.REACT_APP_SERVER;
+      const watchList = await axios.post(`${server}/watchlist/movie`, { title: title, overview: overview, poster_path: poster_path, release_date: release_date, rating: rating, email: email });
+      console.log('inside add a movie', watchList);
+      this.setState({ watchList: watchList.data });
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  deleteMovie = async (movieId) => {
+    const server = process.env.REACT_APP_SERVER;
+    const newMovies = await axios.delete(`${server}/watchlist/movie/${movieId}`, { params: { email: this.props.auth0.user.email } });
+    console.log(newMovies);
+    const newMovieArr = this.state.watchList.filter((movie) => movie._id !== movieId);
+    console.log(newMovieArr);
+    this.setState({ watchList: newMovieArr });
+  }
 
   render() {
     console.log('app', this.props)
-    return(
-        <Router>
-          <IsLoadingAndError>
-            <Header />
-            <Container>
-              <Switch>
-                <Route exact path="/">
-                  { this.props.auth0.isAuthenticated ? <Dashboard properties={this.props} watchList={this.state.watchList}/> : <Login /> }
-                </Route>
-                <Route exact path="/profile">
-                  { this.props.auth0.isAuthenticated ? <Profile properties={this.props} watchList={this.state.watchList}/> : <Login /> }
-                </Route>
-              </Switch>
-            </Container>
-            <Footer />
-          </IsLoadingAndError>
-        </Router>
+    return (
+      <Router>
+        <IsLoadingAndError>
+          <Header />
+          <Container>
+            <Switch>
+              <Route exact path="/">
+                {this.props.auth0.isAuthenticated ?
+                  <Dashboard
+                    addMovie={this.addMovie}
+                    properties={this.props}
+                    watchList={this.state.watchList} /> : <Login />}
+              </Route>
+              <Route exact path="/profile">
+                {this.props.auth0.isAuthenticated ? <Profile properties={this.props} watchList={this.state.watchList} /> : <Login />}
+              </Route>
+            </Switch>
+          </Container>
+          <Footer />
+        </IsLoadingAndError>
+      </Router>
     )
   }
 

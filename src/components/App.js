@@ -34,11 +34,11 @@ class App extends React.Component {
             .catch(error => {console.log(error.message)})
     }
 
-    addComment = async(e, rating, comment, id) => {
+    addComment = async(e, rating, comment, movieId) => {
         e.preventDefault();
         try {
           const server = process.env.REACT_APP_SERVER;
-          const watchList = await axios.post(`${server}/watchlist`, {rating, comment, id, email: this.props.auth0.user.email});
+          const watchList = await axios.post(`${server}/watchlist`, {rating, comment, movieId, email: this.props.auth0.user.email});
           this.setState({ watchList: watchList.data });
         } catch (err) {
           console.log(err.message);
@@ -63,11 +63,11 @@ class App extends React.Component {
         }
     };
 
-    updateComment = async(e, comment, user_rating, movieId, id) => {
+    updateComment = async(e, comment, user_rating, movieId, id, email) => {
         e.preventDefault();
         try{
             const server = process.env.REACT_APP_SERVER;
-            const newMovies = await axios.put(`${server}/watchlist/${movieId}/${id}`, {params: {email: this.props.auth0.user.email}}, {comment, user_rating})
+            const newMovies = await axios.put(`${server}/watchlist/${movieId}/${id}`, {comment, user_rating, email})
             const newMovieArr = newMovies.data;
             console.log(newMovieArr);
             this.setState({ watchList: newMovieArr });
@@ -88,12 +88,16 @@ class App extends React.Component {
     }
     
     deleteMovie = async(movieId) => {
-        const server = process.env.REACT_APP_SERVER;
-        const newMovies = await axios.delete(`${server}/watchlist/movie/${movieId}`, {params: {email: this.props.auth0.user.email}});
-        console.log(newMovies);
-        const newMovieArr = this.state.watchList.filter((movie) => movie._id !== movieId);
-        console.log(newMovieArr);
-        this.setState({ watchList: newMovieArr });
+        try{
+            const server = process.env.REACT_APP_SERVER;
+            const newMovies = await axios.delete(`${server}/watchlist/movie/${movieId}`, {params: {email: this.props.auth0.user.email}});
+            console.log(newMovies);
+            const newMovieArr = this.state.watchList.filter((movie) => movie._id !== movieId);
+            console.log(newMovieArr);
+            this.setState({ watchList: newMovieArr });
+        } catch(err){
+            console.log(err.message);
+        }
     }
 
 
@@ -106,10 +110,29 @@ class App extends React.Component {
             <Container>
               <Switch>
                 <Route exact path="/">
-                  { this.props.auth0.isAuthenticated ? <Dashboard properties={this.props} watchList={this.state.watchList}/> : <Login /> }
+                  { this.props.auth0.isAuthenticated ? 
+                  <Dashboard 
+                  properties={this.props} 
+                  addMovie={this.addMovie} 
+                  watchList={this.state.watchList}/> 
+                  :
+                  <Login /> 
+                  }
                 </Route>
                 <Route exact path="/profile">
-                  { this.props.auth0.isAuthenticated ? <Profile properties={this.props} watchList={this.state.watchList}/> : <Login /> }
+                  { this.props.auth0.isAuthenticated ? 
+                  <Profile 
+                  properties={this.props} 
+                  watchList={this.state.watchList}
+                  deleteMovie={this.deleteMovie}
+                  addComment={this.addComment}
+                  deleteComment={this.deleteComment}
+                  updateComment={this.updateComment}
+                  getUser={this.getUser}
+                  /> 
+                  : 
+                  <Login /> 
+                  }
                 </Route>
               </Switch>
             </Container>

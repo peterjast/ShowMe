@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 // import DetailsModal from './DetailsModal';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from 'react-bootstrap/Modal'
 
 class Trending extends React.Component {
   constructor(props) {
@@ -19,8 +20,9 @@ class Trending extends React.Component {
       displayMovies: false,
       displayShows: false,
       displayDetails: false,
-      currentMovie: {}
-
+      currentMovie: {},
+      smShow: false,
+      setSmShow: false
     }
   }
 
@@ -65,18 +67,18 @@ class Trending extends React.Component {
   // <AddMovie index={i} addMovie={this.addMovie}/> <Button inline index={i} onClick={this.displayDetails(show)}>Details</Button>
   render() {
     // const window.innerWidth = window.innerWidth;
-  //   const responsive = (window) => {
-  //    console.log('inside trending', window);
-  //     if (window > 1600){
-  //       return 4;
-  //     } else if (window < 1600 && window > 1024){
-  //       return 3;
-  //     } else if (window < 1024 && window > 464){
-  //       return 2;
-  //     } else if (window < 464) {
-  //       return 1;
-  //   };
-  // }
+    //   const responsive = (window) => {
+    //    console.log('inside trending', window);
+    //     if (window > 1600){
+    //       return 4;
+    //     } else if (window < 1600 && window > 1024){
+    //       return 3;
+    //     } else if (window < 1024 && window > 464){
+    //       return 2;
+    //     } else if (window < 464) {
+    //       return 1;
+    //   };
+    // }
 
     return (
       <>
@@ -84,9 +86,9 @@ class Trending extends React.Component {
           <Row>
             {this.state.displayMovies &&
               <Carousel
-              style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto', marginTop: 64 }}
-              // show={responsive}
-              className="w-50 mx-auto">
+                style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto', marginTop: 64 }}
+                // show={responsive}
+                className="w-50 mx-auto">
                 {this.state.trendingMovies.map((movie, i) => (
                   movie.poster_path &&
                   <div key={i}>
@@ -104,12 +106,25 @@ class Trending extends React.Component {
                         <Card.Link href="#"></Card.Link>
                         <Card.Link href="#"></Card.Link>
                       </Card.Body>
-                    </Card>
-                    <div>
-                      <Button onClick={(e) => this.props.addMovie(e, movie.title, movie.overview, movie.poster_path, movie.release_date, movie.rating, this.props.email)}>
-                        Add To Watchlist
+                      <div onSubmit={()=> this.state.setSmShow(true)}>
+                        <Button onClick={(e) => this.props.addMovie(e, movie.title, movie.overview, movie.poster_path, movie.release_date, movie.rating, this.props.email)}>
+                          Add To Watchlist
                       </Button>
-                    </div>
+                        <Modal
+                          size="sm"
+                          show={this.state.smShow}
+                          onHide={() => this.state.setSmShow(false)}
+                          aria-labelledby="example-modal-sizes-title-sm"
+                        >
+                          <Modal.Header closeButton>
+                            <Modal.Title id="example-modal-sizes-title-sm">
+                              Small Modal
+          </Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>...</Modal.Body>
+                        </Modal>
+                      </div>
+                    </Card>
                   </div>
                 ))}
               </Carousel>

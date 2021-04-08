@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 // import DetailsModal from './DetailsModal';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Modal from 'react-bootstrap/Modal'
+import Modal from 'react-bootstrap/Modal';
 
 class Trending extends React.Component {
   constructor(props) {
@@ -106,23 +106,23 @@ class Trending extends React.Component {
                         <Card.Link href="#"></Card.Link>
                         <Card.Link href="#"></Card.Link>
                       </Card.Body>
-                      <div onSubmit={()=> this.state.setSmShow(true)}>
-                        <Button onClick={(e) => this.props.addMovie(e, movie.title, movie.overview, movie.poster_path, movie.release_date, movie.rating, this.props.email)}>
+                      <div>
+                        <Button onClick={(e) => {this.props.addMovie(e, movie.title, movie.overview, movie.poster_path, movie.release_date, movie.rating, this.props.email); this.setState({ smShow:true })}}>
                           Add To Watchlist
                       </Button>
-                        <Modal
-                          size="sm"
-                          show={this.state.smShow}
-                          onHide={() => this.state.setSmShow(false)}
-                          aria-labelledby="example-modal-sizes-title-sm"
-                        >
-                          <Modal.Header closeButton>
-                            <Modal.Title id="example-modal-sizes-title-sm">
-                              Small Modal
-          </Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>...</Modal.Body>
-                        </Modal>
+                        <div className="modal">
+                          <Modal
+                            size="sm"
+                            show={this.state.smShow}
+                            onHide={() => this.setState({ smShow:false })}
+                            aria-labelledby="example-modal-sizes-title-sm">
+                            <Modal.Header closeButton>
+                              <Modal.Title id="example-modal-sizes-title-sm">
+                                Success! Movie added to Watchlist
+                              </Modal.Title>
+                            </Modal.Header>
+                          </Modal>
+                        </div>
                       </div>
                     </Card>
                   </div>

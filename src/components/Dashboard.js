@@ -5,8 +5,8 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Card';
 import Carousel from './Carousel.js';
 import './Carousel.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -15,7 +15,8 @@ class Dashboard extends React.Component {
             displaySearchResults: false,
             displayTrending: true,
             searchResults: [],
-            searchQuery: ''
+            searchQuery: '',
+            smShow: false
         }
     }
 
@@ -74,11 +75,22 @@ class Dashboard extends React.Component {
                                         </Row>
                                     </Card.Text>
                                 </Card.Body>
-                                <div>
-                                    <Button onClick={(e) => this.props.addMovie(e, mediaObj.title, mediaObj.overview, mediaObj.poster_path, mediaObj.release_date, mediaObj.rating, this.props.email)}>
+                                    <Button onClick={(e) => {this.props.addMovie(e, mediaObj.title, mediaObj.overview, mediaObj.poster_path, mediaObj.release_date, mediaObj.rating, this.props.email); this.setState({ smShow:true })}}>
                                         Add To Watchlist
                                     </Button>
-                                </div>
+                                        <Modal
+                                        className="modal"
+                                        size="sm"
+                                        show={this.state.smShow}
+                                        onHide={() => this.setState({ smShow:false })}
+                                        // aria-labelledby="example-modal-sizes-title-sm"
+                                        >
+                                            <Modal.Header closeButton>
+                                                <Modal.Title id="example-modal-sizes-title-sm">
+                                                Success! Movie added to Watchlist
+                                                </Modal.Title>
+                                            </Modal.Header>
+                                        </Modal>
                             </Card>
 
                         ))}

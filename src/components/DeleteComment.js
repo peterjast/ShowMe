@@ -1,16 +1,16 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 
-class Delete extends React.Component {
+class DeleteComment extends React.Component {
   render(){
     return(
       <Button 
         className="bg-info text-light"
-        onClick={()=>this.props.deleteMovie(this.props.movieId)}>
+        onClick={()=>this.props.deleteComment(this.props.movieId, this.props.comment, this.props.idx)}>
         x
       </Button>
     )
   }
 }
 
-export default Delete;
+export default DeleteComment;

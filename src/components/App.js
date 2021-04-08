@@ -20,61 +20,41 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      watchList: []
+      watchList: [],
+      comments: []
     }
   }
+
+  handleWatchList  = (movies) => {
+      this.setState({watchList: movies})
+  }; 
+
+  handleComments  = (comments) => {
+    this.setState({comments});
+    console.log()
+}; 
 
   getUser = () => {
     const SERVER = process.env.REACT_APP_SERVER;
     axios.get(`${SERVER}/watchlist`, { params: { email: this.props.auth0.user.email } })
-      .then(watchList => {
-        this.setState({ watchList: watchList.data });
-        console.log('watchList', watchList.data);
+      .then(result => {
+        this.setState({ watchList: result.data.watchList, comments: result.data.comments });
+        console.log('watchList', result.data);
+        console.log(this.state);
       })
       .catch(error => { console.log(error.message) })
   }
 
-  addComment = async (e, rating, comment, id) => {
-    e.preventDefault();
-    try {
-      const server = process.env.REACT_APP_SERVER;
-      const watchList = await axios.post(`${server}/watchlist`, { rating, comment, id, email: this.props.auth0.user.email });
-      this.setState({ watchList: watchList.data });
-    } catch (err) {
-      console.log(err.message);
+    addComment = async(e, rating, comment, movieId, email) => {
+        e.preventDefault();
+        try {
+          const server = process.env.REACT_APP_SERVER;
+          const results = await axios.post(`${server}/watchlist`, {rating, comment, movieId, email});
+          this.setState({ comments: results.data.comments });
+        } catch (err) {
+          console.log(err.message);
+        }
     }
-  }
-
-  //     app.post('/watchlist', Data.addComment);
-  // app.put('/watchlist/:movieId/:id', Data.updateComment);
-  // app.delete('/watchlist/movie/:movieId', Data.deleteMovie);
-  // app.delete('/watchlist/:movieId/:id', Data.deleteComment);
-
-  deleteComment = async (movieId, id) => {
-    try {
-      const server = process.env.REACT_APP_SERVER;
-      const newMovies = await axios.delete(`${server}/watchlist/${movieId}/${id}`, { params: { email: this.props.auth0.user.email } });
-      console.log(newMovies);
-      const newMovieArr = newMovies.data;
-      console.log(newMovieArr);
-      this.setState({ watchList: newMovieArr });
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
-  updateComment = async (e, comment, user_rating, movieId, id) => {
-    e.preventDefault();
-    try {
-      const server = process.env.REACT_APP_SERVER;
-      const newMovies = await axios.put(`${server}/watchlist/${movieId}/${id}`, { params: { email: this.props.auth0.user.email } }, { comment, user_rating })
-      const newMovieArr = newMovies.data;
-      console.log(newMovieArr);
-      this.setState({ watchList: newMovieArr });
-    } catch (err) {
-      console.log(err.message);
-    }
-  }
 
   addMovie = async (e, title, overview, poster_path, release_date, rating, email) => {
     e.preventDefault();
@@ -87,43 +67,65 @@ class App extends React.Component {
       this.setState({ watchList: watchList.data });
     } catch (err) {
       console.log(err.message);
-    }
-  }
+    };
+  };
 
-  deleteMovie = async (movieId) => {
-    const server = process.env.REACT_APP_SERVER;
-    const newMovies = await axios.delete(`${server}/watchlist/movie/${movieId}`, { params: { email: this.props.auth0.user.email } });
-    console.log(newMovies);
-    const newMovieArr = this.state.watchList.filter((movie) => movie._id !== movieId);
-    console.log(newMovieArr);
-    this.setState({ watchList: newMovieArr });
-  }
+//   updateComment = async(e, comment, user_rating, movieId, id, email) => {
+//       e.preventdefault();
+//     try {
+//       const server = process.env.REACT_APP_SERVER;
+//       console.log(comment, user_rating, movieId, id)
+//       const newMovies = await axios.put(`${server}/watchlist/${movieId}/${id}`, {email, comment, user_rating});
+//       const newMovieArr = newMovies.data;
+//       console.log(newMovieArr);
+//     this.props.getUser();
+//     } catch (err) {
+//       console.log(err.message);
+//     }
+//     }
 
-  render() {
+  render(){
     console.log('app', this.props)
-    return (
-      <Router>
-        <IsLoadingAndError>
-          <Header />
-          <Container>
-            <Switch>
-              <Route exact path="/">
-                {this.props.auth0.isAuthenticated ?
+    return(
+        <Router>
+          <IsLoadingAndError>
+            <Header />
+            <Container>
+              <Switch>
+                <Route exact path="/">
+                  { this.props.auth0.isAuthenticated ? 
                   <Dashboard
-                    addMovie={this.addMovie}
-                    properties={this.props}
-                    watchList={this.state.watchList} /> : <Login />}
-              </Route>
-              <Route exact path="/profile">
-                {this.props.auth0.isAuthenticated ? <Profile properties={this.props} watchList={this.state.watchList} /> : <Login />}
-              </Route>
-            </Switch>
-          </Container>
-          <Footer />
-        </IsLoadingAndError>
-      </Router>
+                  handleComments={this.handleComments}
+                  handleWatchList= {this.handleWatchList}
+                  properties={this.props} 
+                  addMovie={this.addMovie} 
+                  watchList={this.state.watchList}/> 
+                  :
+                  <Login /> 
+                  }
+                </Route>
+                <Route exact path="/profile">
+                  { this.props.auth0.isAuthenticated ? 
+                  <Profile
+                  comments={this.state.comments} 
+                  properties={this.props} 
+                  watchList={this.state.watchList}
+                  deleteMovie={this.deleteMovie}
+                  addComment={this.addComment}
+                  deleteComment={this.deleteComment}
+                  getUser={this.getUser}
+                  /> 
+                  : 
+                  <Login /> 
+                  }
+                </Route>
+              </Switch>
+            </Container>
+            <Footer />
+          </IsLoadingAndError>
+        </Router>
     )
-  }
+  };
 
 }
 

@@ -5,14 +5,12 @@ class Update extends React.Component {
   render(){
     return(
       <Button 
-        className="bg-info text-light"
-        style={{
-          position: 'absolute',
-          right: -25,
-          top: -20,
-        }} 
-        onClick={() => this.props.displayUpdateForm(this.props.index)}>
-        Update
+      key ={this.props.idx}
+      style={{float: 'right'}} 
+      className="float-right mr-5 bg-info" 
+      onClick={()=>this.props.displayUpdateForm(this.props.movieId, this.props.idx)}
+      >
+      Edit
       </Button>
     )
   }

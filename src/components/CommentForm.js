@@ -4,23 +4,44 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 class CommentForm extends React.Component {
-  
+  constructor(props){
+    super(props);
+    this.state={
+      comment: '',
+      user_rating: 0
+    }
+  }
+
+  updateUserComment = (e) => {
+    this.setState({comment: e.target.value})
+  }
+
+  updateUserRating = (e) => {
+    this.setState({user_rating: e.target.value})
+  }
+
+  // reload = () => window.location.reload();
+  // onExit={this.reload}
+  // render() {
+  //   return (
+  //     <Modal show={this.props.show} onHide={this.props.handleClose} onExit={reload}>
+
   render() {
     return (
-      <Modal key={this.props.idx} show={this.props.handleShow} onHide={this.props.handleClose}>
+      <Modal show={this.props.show} onHide={this.props.handleClose} >
         <Modal.Header closeButton>
           <Modal.Title className="text-center">Comment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form key={this.props.idx} onSubmit={() => this.props.updateComment(this.props.currentMovieId)}>
+          <Form onSubmit={(e) => this.props.addComment(e, this.state.user_rating, this.state.comment, this.props.movieId, this.props.email)}>
             <Form.Group controlId="title">
               <Form.Label>Comment</Form.Label>
-              <Form.Control type="text" placeholder="Comment Here" onChange={(e)=>this.props.updateUserComment(e)}/>
+              <Form.Control type="text" placeholder="Comment Here" onChange={(e)=>this.updateUserComment(e)}/>
             </Form.Group>
 
             <Form.Group controlId="rating">
               <Form.Label>Rating</Form.Label>
-              <Form.Control as="select" type="number" placeholder="User Rating" onChange={(e)=>this.props.updateUserRating(e)}>
+              <Form.Control as="select" type="number" placeholder="User Rating" onChange={(e) => this.updateUserRating(e)}>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>

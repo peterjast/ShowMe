@@ -19,8 +19,8 @@ class Trending extends React.Component {
       displayMovies: false,
       displayShows: false,
       displayDetails: false,
-      currentMovie: {},
-      carouselIndex: 0
+      currentMovie: {}
+
     }
   }
 
@@ -65,18 +65,18 @@ class Trending extends React.Component {
   // <AddMovie index={i} addMovie={this.addMovie}/> <Button inline index={i} onClick={this.displayDetails(show)}>Details</Button>
   render() {
     // const window.innerWidth = window.innerWidth;
-    const responsive = (window) => {
-     console.log('inside trending', window);
-      if (window > 1600){
-        return 4;
-      } else if (window < 1600 && window > 1024){
-        return 3;
-      } else if (window < 1024 && window > 464){
-        return 2;
-      } else if (window < 464) {
-        return 1;
-    };
-  }
+  //   const responsive = (window) => {
+  //    console.log('inside trending', window);
+  //     if (window > 1600){
+  //       return 4;
+  //     } else if (window < 1600 && window > 1024){
+  //       return 3;
+  //     } else if (window < 1024 && window > 464){
+  //       return 2;
+  //     } else if (window < 464) {
+  //       return 1;
+  //   };
+  // }
 
     return (
       <>
@@ -85,7 +85,7 @@ class Trending extends React.Component {
             {this.state.displayMovies &&
               <Carousel
               style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto', marginTop: 64 }}
-              show={responsive}
+              // show={responsive}
               className="w-50 mx-auto">
                 {this.state.trendingMovies.map((movie, i) => (
                   movie.poster_path &&

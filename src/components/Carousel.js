@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Carousel.css'
 
 const Carousel = (props) => {
-    const {children, show} = props
+    const { children, show } = props
     console.log(props);
     const [currentIndex, setCurrentIndex] = useState(0)
     const [length, setLength] = useState(children.length)
@@ -15,7 +15,7 @@ const Carousel = (props) => {
     }, [children])
 
     const next = () => {
-        if (currentIndex < (length - show)) {
+        if (currentIndex < (length - carouselIndex.index)) {
             setCurrentIndex(prevState => prevState + 1)
         }
     }
@@ -34,7 +34,7 @@ const Carousel = (props) => {
     const handleTouchMove = (e) => {
         const touchDown = touchPosition
 
-        if(touchDown === null) {
+        if (touchDown === null) {
             return
         }
 
@@ -51,52 +51,75 @@ const Carousel = (props) => {
 
         setTouchPosition(null)
     }
-    const [carouselIndex, setDimensions] = React.useState({ 
-      index: props.carouselIndex,
+    const [carouselIndex, setDimensions] = useState({index:4})
+    useEffect(() => {
+        const debouncedHandleResize = debounce(function handleResize() {
+            setDimensions({
+                index: responsive(window.innerWidth)
+            })
+            // console.log(‘resized to: ’, window.innerWidth, ‘x’, window.innerHeight);
+        }, 1000)
+        window.addEventListener("resize", debouncedHandleResize)
+        return _ => {
+            window.removeEventListener("resize", debouncedHandleResize)
+        }
     })
-    React.useEffect(() => {
-      function handleResize() {
-        setDimensions ({
-          index: props.show(window.innerWidth)
-        })
-        console.log('resized to: ', window.innerWidth, 'x', window.innerHeight);
-  }
-      window.addEventListener('resize', handleResize)
-    })
+    function debounce(fn, ms) {
+        let timer;
+        return _ => {
+            clearTimeout(timer);
+            timer = setTimeout(_ => {
+                timer = null;
+                fn.apply(this, arguments);
+            }, ms);
+        };
+    }
+    const responsive = (window) => {
+        console.log('inside trending', window);
+         if (window > 1600){
+           return 4;
+         } else if (window < 1600 && window > 1024){
+           return 3;
+         } else if (window < 1024 && window > 464){
+           return 2;
+         } else if (window < 464) {
+           return 1;
+       };
+     }
 
-    return (
-        <div className="carousel-container">
-            <div className="carousel-wrapper">
-                {/* You can alwas change the content of the button to other things */}
-                {
-                    currentIndex > 0 &&
-                    <button onClick={prev} className="left-arrow">
-                        &lt;
+return (
+    <div className="carousel-container">
+        <div className="carousel-wrapper">
+            {/* You can always change the content of the button to other things */}
+            {
+                currentIndex > 0 &&
+                <button onClick={prev} className="left-arrow">
+                    &lt;
                     </button>
-                }
+            }
+            <div
+                className="carousel-content-wrapper"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+            >
                 <div
-                    className="carousel-content-wrapper"
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
+                    // responsive={responsive}
+                    className={`carousel-content show-${carouselIndex.index}`}
+                    style={{ transform: `translateX(-${currentIndex * (100 / carouselIndex.index)}%)` }}
                 >
-                    <div
-                        // responsive={responsive}
-                        className={`carousel-content show-${carouselIndex.index}`}
-                        style={{ transform: `translateX(-${currentIndex * (100 / show)}%)` }}
-                    >
-                        {children}
-                    </div>
+                    {children}
                 </div>
-                {/* You can alwas change the content of the button to other things */}
-                {
-                    currentIndex < (length - show) &&
-                    <button onClick={next} className="right-arrow">
-                        &gt;
-                    </button>
-                }
             </div>
+            {/* You can alwas change the content of the button to other things */}
+            {
+                currentIndex < (length - carouselIndex.index) &&
+                <button onClick={next} className="right-arrow">
+                    &gt;
+                    </button>
+            }
         </div>
-    )
+    </div>
+)
 }
 
 export default Carousel;

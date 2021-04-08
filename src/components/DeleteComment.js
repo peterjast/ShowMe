@@ -6,7 +6,7 @@ class DeleteComment extends React.Component {
     return(
       <Button 
         className="bg-info text-light"
-        onClick={()=>this.props.deleteComment(this.props.movieId, this.props.id)}>
+        onClick={()=>this.props.deleteComment(this.props.movieId, this.props.comment, this.props.idx)}>
         x
       </Button>
     )

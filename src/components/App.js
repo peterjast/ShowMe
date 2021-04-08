@@ -20,16 +20,27 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      watchList: []
+      watchList: [],
+      comments: []
     }
   }
+
+  handleWatchList  = (movies) => {
+      this.setState({watchList: movies})
+  }; 
+
+  handleComments  = (comments) => {
+    this.setState({comments});
+    console.log()
+}; 
 
   getUser = () => {
     const SERVER = process.env.REACT_APP_SERVER;
     axios.get(`${SERVER}/watchlist`, { params: { email: this.props.auth0.user.email } })
-      .then(watchList => {
-        this.setState({ watchList: watchList.data });
-        console.log('watchList', watchList.data);
+      .then(result => {
+        this.setState({ watchList: result.data.watchList, comments: result.data.comments });
+        console.log('watchList', result.data);
+        console.log(this.state);
       })
       .catch(error => { console.log(error.message) })
   }
@@ -38,8 +49,8 @@ class App extends React.Component {
         e.preventDefault();
         try {
           const server = process.env.REACT_APP_SERVER;
-          const watchList = await axios.post(`${server}/watchlist`, {rating, comment, movieId, email});
-          this.setState({ watchList: watchList.data });
+          const results = await axios.post(`${server}/watchlist`, {rating, comment, movieId, email});
+          this.setState({ comments: results.data.comments });
         } catch (err) {
           console.log(err.message);
         }
@@ -59,18 +70,19 @@ class App extends React.Component {
     };
   };
 
-  updateComment = async(comment, user_rating, movieId, id, email) => {
-    try {
-      const server = process.env.REACT_APP_SERVER;
-      console.log(comment, user_rating, movieId, id)
-      const newMovies = await axios.put(`${server}/watchlist/${movieId}/${id}`, {email, comment, user_rating});
-      const newMovieArr = newMovies.data;
-      console.log(newMovieArr);
-      this.props.getUser();
-    } catch (err) {
-      console.log(err.message);
-    }
-    }
+//   updateComment = async(e, comment, user_rating, movieId, id, email) => {
+//       e.preventdefault();
+//     try {
+//       const server = process.env.REACT_APP_SERVER;
+//       console.log(comment, user_rating, movieId, id)
+//       const newMovies = await axios.put(`${server}/watchlist/${movieId}/${id}`, {email, comment, user_rating});
+//       const newMovieArr = newMovies.data;
+//       console.log(newMovieArr);
+//     this.props.getUser();
+//     } catch (err) {
+//       console.log(err.message);
+//     }
+//     }
 
   render(){
     console.log('app', this.props)
@@ -82,7 +94,9 @@ class App extends React.Component {
               <Switch>
                 <Route exact path="/">
                   { this.props.auth0.isAuthenticated ? 
-                  <Dashboard 
+                  <Dashboard
+                  handleComments={this.handleComments}
+                  handleWatchList= {this.handleWatchList}
                   properties={this.props} 
                   addMovie={this.addMovie} 
                   watchList={this.state.watchList}/> 
@@ -92,13 +106,13 @@ class App extends React.Component {
                 </Route>
                 <Route exact path="/profile">
                   { this.props.auth0.isAuthenticated ? 
-                  <Profile 
+                  <Profile
+                  comments={this.state.comments} 
                   properties={this.props} 
                   watchList={this.state.watchList}
                   deleteMovie={this.deleteMovie}
                   addComment={this.addComment}
                   deleteComment={this.deleteComment}
-                  updateComment={this.updateComment}
                   getUser={this.getUser}
                   /> 
                   : 

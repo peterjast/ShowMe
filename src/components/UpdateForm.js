@@ -7,12 +7,12 @@ class CommentForm extends React.Component {
   
   render() {
     return (
-      <Modal show={this.props.handleShow} onHide={this.props.handleClose}>
+      <Modal key={this.props.idx} show={this.props.handleShow} onHide={this.props.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className="text-center">Comment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={(e) => this.props.handleSubmit(e)}>
+          <Form key={this.props.idx} onSubmit={() => this.props.updateComment(this.props.currentMovieId)}>
             <Form.Group controlId="title">
               <Form.Label>Comment</Form.Label>
               <Form.Control type="text" placeholder="Comment Here" onChange={(e)=>this.props.updateUserComment(e)}/>

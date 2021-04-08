@@ -1,12 +1,12 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 
-class AddBook extends React.Component {
+class AddComment extends React.Component {
   render(){
     return(
-      <Button style={{float: 'right'}} className="float-right mr-5 bg-info" onClick={this.props.show}>Comment</Button>
+      <Button key={this.props.idx} style={{float: 'left'}} className="float-left ml-5 bg-info" onClick={this.props.show}>Comment</Button>
     )
   }
 }
 
-export default AddBook;
+export default AddComment;

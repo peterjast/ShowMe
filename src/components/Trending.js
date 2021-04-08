@@ -60,6 +60,8 @@ class Trending extends React.Component {
     console.log('this is where I would add a movie');
   }
 
+  // <AddMovie index={i} addMovie={this.addMovie}/> <Button inline index={i} onClick={this.displayDetails(movie)}>Details</Button>
+  // <AddMovie index={i} addMovie={this.addMovie}/> <Button inline index={i} onClick={this.displayDetails(show)}>Details</Button>
   render() {
     return (
       <>

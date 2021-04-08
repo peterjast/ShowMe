@@ -1,14 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
-import Carousel from 'react-bootstrap/Carousel';
+import Carousel from './Carousel.js';
+import './Carousel.css';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 // import AddMovie from './AddMovie.js';
 // import DetailsModal from './DetailsModal';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Modal from 'react-bootstrap/Modal';
 
 class Trending extends React.Component {
   constructor(props) {
@@ -19,7 +20,9 @@ class Trending extends React.Component {
       displayMovies: false,
       displayShows: false,
       displayDetails: false,
-      currentMovie: {}
+      currentMovie: {},
+      smShow: false,
+      setSmShow: false
     }
   }
 
@@ -36,16 +39,16 @@ class Trending extends React.Component {
       })
       .catch(err => { console.log(err.message) })
 
-    axios.get(`${SERVER}/shows`)
-      .then(shows => {
-        this.setState({
-          trendingShows: shows.data.showArray,
-          displayShows: true
-        })
-        console.log('shows:', shows);
-        console.log('shows:', shows.data);
-      })
-      .catch(err => { console.log(err.message) })
+    // axios.get(`${SERVER}/shows`)
+    //   .then(shows => {
+    //     this.setState({
+    //       trendingShows: shows.data.showArray,
+    //       displayShows: true
+    //     })
+    //     console.log('shows:', shows);
+    //     console.log('shows:', shows.data);
+    //   })
+    //   .catch(err => { console.log(err.message) })
   }
 
   handleClose = () => {
@@ -63,15 +66,32 @@ class Trending extends React.Component {
   // <AddMovie index={i} addMovie={this.addMovie}/> <Button inline index={i} onClick={this.displayDetails(movie)}>Details</Button>
   // <AddMovie index={i} addMovie={this.addMovie}/> <Button inline index={i} onClick={this.displayDetails(show)}>Details</Button>
   render() {
+    // const window.innerWidth = window.innerWidth;
+    //   const responsive = (window) => {
+    //    console.log('inside trending', window);
+    //     if (window > 1600){
+    //       return 4;
+    //     } else if (window < 1600 && window > 1024){
+    //       return 3;
+    //     } else if (window < 1024 && window > 464){
+    //       return 2;
+    //     } else if (window < 464) {
+    //       return 1;
+    //   };
+    // }
+
     return (
       <>
         <Container>
           <Row>
             {this.state.displayMovies &&
-              <Carousel className="w-50 mx-auto">
+              <Carousel
+                style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto', marginTop: 64 }}
+                // show={responsive}
+                className="w-50 mx-auto">
                 {this.state.trendingMovies.map((movie, i) => (
                   movie.poster_path &&
-                  <Carousel.Item key={i}>
+                  <div key={i}>
                     <Card style={{ width: '18rem' }}>
                       <Card.Img variant="top"
                         className="d-block w-100"
@@ -80,19 +100,32 @@ class Trending extends React.Component {
                       />
                       <Card.Body>
                         <Card.Title>{movie.title}</Card.Title>
-                        <Card.Text>
+                        <Card.Text className="cardText">
                           {movie.overview}
                         </Card.Text>
                         <Card.Link href="#"></Card.Link>
                         <Card.Link href="#"></Card.Link>
                       </Card.Body>
-                    </Card>
-                    <Carousel.Caption>
-                      <Button onClick={(e) => this.props.addMovie(e, movie.title, movie.overview, movie.poster_path, movie.release_date, movie.rating, this.props.email)}>
-                        Add To Watchlist
+                      <div>
+                        <Button onClick={(e) => {this.props.addMovie(e, movie.title, movie.overview, movie.poster_path, movie.release_date, movie.rating, this.props.email); this.setState({ smShow:true })}}>
+                          Add To Watchlist
                       </Button>
-                    </Carousel.Caption>
-                  </Carousel.Item>
+                        <div className="modal">
+                          <Modal
+                            size="sm"
+                            show={this.state.smShow}
+                            onHide={() => this.setState({ smShow:false })}
+                            aria-labelledby="example-modal-sizes-title-sm">
+                            <Modal.Header closeButton>
+                              <Modal.Title id="example-modal-sizes-title-sm">
+                                Success! Movie added to Watchlist
+                              </Modal.Title>
+                            </Modal.Header>
+                          </Modal>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
                 ))}
               </Carousel>
             }
@@ -112,7 +145,7 @@ class Trending extends React.Component {
                       />
                       <Card.Body>
                         <Card.Title>{show.title}</Card.Title>
-                        <Card.Text>
+                        <Card.Text className="cardText">
                           {show.overview}
                         </Card.Text>
                         <Card.Link href="#"></Card.Link>

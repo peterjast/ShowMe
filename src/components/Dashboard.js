@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
             <>
                 <form className="w-50 p3 mx-auto mb-3 mt-3" onSubmit={this.getSearchResults} >
                     <input className="w-75 p3" onChange={(e) => this.setState({ searchQuery: e.target.value })} placeholder="find movies or shows" />
-                    <button className="w-25 p3" type="submit">Search</button>
+                    <Button variant="primary" size="sm" className="w-25 p3 mb-1 " type="submit">Search</Button>
                 </form>
                 {!this.state.displaySearchResults ?
                     <Trending

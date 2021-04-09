@@ -86,7 +86,7 @@ class Trending extends React.Component {
           <Row>
             {this.state.displayMovies &&
               <Carousel
-                style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto', marginTop: 64 }}
+                style={{ maxWidth: 2000, marginLeft: 'auto', marginRight: 'auto', marginTop: 64 }}
                 // show={responsive}
                 className="w-50 mx-auto">
                 {this.state.trendingMovies.map((movie, i) => (
@@ -100,10 +100,16 @@ class Trending extends React.Component {
                       />
                       <Card.Body className = "cardBody">
                         <Card.Title className = "cardTitle">{movie.title}</Card.Title>
+                        <Card.Text className="cardRelease">
+                          {`Release Date: ${movie.release_date}`}
+                        </Card.Text>
+                        <Card.Text className="cardRating">
+                          {`Rating: ${movie.rating}`}
+                        </Card.Text>
                         <Card.Text className="cardText">
                           {movie.overview}
                         </Card.Text>
-                        <Button className = "cardButton" onClick={(e) => {this.props.addMovie(e, movie.title, movie.overview, movie.poster_path, movie.release_date, movie.rating, this.props.email); this.setState({ smShow:true })}}>
+                        <Button variant="success" className = "cardButton" onClick={(e) => {this.props.addMovie(e, movie.title, movie.overview, movie.poster_path, movie.release_date, movie.rating, this.props.email); this.setState({ smShow:true })}}>
                           Add To Watchlist
                       </Button>
 

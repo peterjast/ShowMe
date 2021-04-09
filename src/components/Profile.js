@@ -176,7 +176,7 @@ class Profile extends React.Component {
                 </div>
                 <hr></hr>
                 <h1>My Watch List</h1>
-                {!this.props.watchList.length > 0 ?
+                {this.props.watchList === undefined ?
                     <h3>Nothing to see here...</h3>
                     :
                     this.props.watchList.map((mediaObj, idx) => (

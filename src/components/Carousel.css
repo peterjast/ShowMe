@@ -113,3 +113,15 @@
 .cardBody {
   background-color:whitesmoke;
 }
+
+.cardRelease {
+  height:10px;
+  font-size: 10px;
+  text-align: center;
+}
+
+.cardRating {
+  height:10px;
+  font-size: 10px;
+  text-align: center;
+}

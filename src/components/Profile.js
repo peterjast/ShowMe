@@ -126,6 +126,7 @@ class Profile extends React.Component {
     }
 
     updateComments = async (commentId) => {
+        console.log("inside update")
         try {
             // const commArr = this.props.comments;
             // const index = commArr.indexOf((this.props.comments.filter(comment => comment._id === commentId))[0]);
@@ -134,11 +135,11 @@ class Profile extends React.Component {
 
             // this.props.watchList[this.props.movieIndex].comments.splice([this.state.idx], 1);
             const server = process.env.REACT_APP_SERVER;
-            const newComments = await axios.post(`${server}/watchlist/${commentId}`, { comment: this.state.comment, rating: this.state.user_rating, email: this.props.properties.auth0.user.email });
-            const newCommentArr = newComments.data;
-            console.log(newCommentArr);
-            this.props.handleComments(newCommentArr);
-            this.props.getUser();
+            await axios.put(`${server}/comment/${commentId}`, {comment: this.state.comment, rating: this.state.user_rating, email: this.props.properties.auth0.user.email});
+            // const newCommentArr = newComments.data;
+            // console.log(newCommentArr);
+            // this.props.handleComments(newCommentArr);
+            await this.props.getUser();
         } catch (err) {
             console.log(err.message);
         }
@@ -247,7 +248,7 @@ class Profile extends React.Component {
                                                         {commentObj.comment}
                                                     </Card.Text>
                                                     <Update
-                                                        key={idx}
+                                                        key={commentObj._id}
                                                         comment={commentObj}
                                                         idx={idx}
                                                         movieId={this.state.movieId}
@@ -255,7 +256,7 @@ class Profile extends React.Component {
                                                     />
                                                     {this.state.showUpdate &&
                                                         <UpdateForm
-                                                            key={idx}
+                                                            key={commentObj._id}
                                                             updateComment={this.updateComment}
                                                             handleShow={this.state.showUpdate}
                                                             handleClose={this.handleCloseUpdateForm}

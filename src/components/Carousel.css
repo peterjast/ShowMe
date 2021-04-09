@@ -99,3 +99,17 @@
   z-index: 1030;
   background-color: rgba(2, 2, 2, 0.1);
 }
+
+.cardButton {
+  margin-left: 52px;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  height: 70px;
+  text-align: center;
+}
+
+.cardBody {
+  background-color:whitesmoke;
+}

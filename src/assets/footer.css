@@ -1,0 +1,11 @@
+.footerNav {
+    background-color:rgb(124, 124, 124);
+    position: absolute;
+    bottom: 35;
+    width: 100%;
+    margin-top: 30px;
+}
+.footerFont {
+    font-family: Futura;
+    margin: auto;
+}

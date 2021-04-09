@@ -11,6 +11,7 @@ import axios from 'axios';
 import DeleteComment from './DeleteComment';
 import Update from './Update';
 import UpdateForm from './UpdateForm';
+import '../assets/profile.css';
 
 class Profile extends React.Component {
     constructor (props) {
@@ -169,7 +170,7 @@ class Profile extends React.Component {
                     </div>
                 </div>
                 <hr></hr>
-                <h1>My Watch List</h1>
+                <h1 className="myWatchList" >My Watch List</h1>
                 {this.props.watchList === undefined ?
                     <h3>Nothing to see here...</h3>
                     :
@@ -177,43 +178,48 @@ class Profile extends React.Component {
                         <Jumbotron key={mediaObj._id} index={idx}>
                             <Row className = "mt-5">
                                 <h1>{mediaObj.title}</h1>
-                                <Delete deleteMovie={this.deleteMovie} movieId={mediaObj._id}>x</Delete>
                             </Row>
                             <Row>
                                 <Col>
-                                    <Card key={mediaObj._id} className="mx-auto mb-5 float-left" bg="dark" text="light">
+                                    <Card key={mediaObj._id} className="mx-auto mb-5 mt-2 float-left" bg="dark" text="light">
                                         <Card.Img variant="top" alt={mediaObj.title} src={`https://www.themoviedb.org/t/p/original${mediaObj.poster_path}`} />
                                     </Card>
                                 </Col>
                                 <Col>
-                                    <h3>{mediaObj.title}</h3>
-                                    <p>
+                                    <h3 className="title" >{mediaObj.title}</h3>
+                                    <p className="releaseDate">
                                         {`Release Date: ${mediaObj.release_date}`}
                                     </p>
-                                    <p>
-                                        {`Rating ${mediaObj.rating}`}
+                                    <p className="rating">
+                                        {`Rating: ${mediaObj.rating}`}
                                     </p>
-                                    <p>
+                                    <p className="overview">
                                         {`Overview: ${mediaObj.overview}`}
                                     </p>
                                 </Col>
-                                <AddComment
-                                    key={idx}
-                                    idx={idx}
-                                    show={this.handleAddComment}>
-                                    Comment
-                                </AddComment>
+                            </Row>
+                                <Row>
+                                    <AddComment
+                                        key={idx}
+                                        idx={idx}
+                                        show={this.handleAddComment}>
+                                        Comment
+                                    </AddComment>
+                  
                                 {this.state.show &&
                                     <CommentForm
-                                        movieId={idx}
-                                        idx={idx}
-                                        show={this.state.show}
-                                        addComment={this.props.addComment}
-                                        updateUserComment={this.props.updateUserComment}
-                                        updateUserRating={this.props.updateUserRating}
-                                        handleClose={this.handleClose}
-                                        email={this.props.properties.auth0.user.email} />
+                                    movieId={idx}
+                                    idx={idx}
+                                    show={this.state.show}
+                                    addComment={this.props.addComment}
+                                    updateUserComment={this.props.updateUserComment}
+                                    updateUserRating={this.props.updateUserRating}
+                                    handleClose={this.handleClose}
+                                    email={this.props.properties.auth0.user.email} />
                                 }
+                                
+
+                                <Delete deleteMovie={this.deleteMovie} movieId={mediaObj._id}>x</Delete>
                             </Row>
                             </Jumbotron>
                             ))}
@@ -228,17 +234,17 @@ class Profile extends React.Component {
                                                     <div className="mx-auto">
                                                         <div className="row align-items-center">
                                                             <div className="col-md-2 mb-3">
-                                                                <img
-                                                                    src={this.props.properties.auth0.user.picture}
-                                                                    alt="Profile"
-                                                                    className="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
-                                                                />
+                                                                <DeleteComment deleteComment={this.deleteComment} commentId={commentObj._id}>x</DeleteComment>
                                                             </div>
                                                             <div className="col-md text-center text-md-left">
                                                                 <h2>{this.props.properties.auth0.user.name}</h2>
                                                                 <p className="lead text-dark">{this.props.properties.auth0.user.email}</p>
                                                             </div>
-                                                            <DeleteComment deleteComment={this.deleteComment} commentId={commentObj._id}>x</DeleteComment>
+                                                                <img
+                                                                    src={this.props.properties.auth0.user.picture}
+                                                                    alt="Profile"
+                                                                    className="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
+                                                                />
                                                         </div>
                                                     </div>
                                                 </Card.Header>

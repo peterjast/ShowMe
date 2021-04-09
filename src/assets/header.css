@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
+.titleFont {
+    color:rgb(202, 5, 5);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+}
+
+.discover {
+    margin: auto;
+    color:rgb(248, 4, 4);
+    font-weight:bolder;
+}
+
+.watchList {
+    color:rgb(247, 6, 6);
+    font-weight:bolder;
+}
+
+.logOutButton {
+    background-color: rgb(59, 153, 161);
+    border-color:  rgb(59, 153, 161);
+}
+
+.loginButton {
+    background-color: rgb(52, 173, 62);
+    border-color: none;
+}
+
+.navBar {
+    background-color: navy;
+}

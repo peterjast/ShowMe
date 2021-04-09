@@ -1,0 +1,28 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap'); */
+
+.titleFont {
+    color:rgb(255, 255, 255);
+    font-family: Futura;
+
+}
+
+.discover {
+    margin: auto;
+    color:rgb(255, 255, 255);
+    font-weight:bolder;
+}
+
+.watchList {
+    color:rgb(255, 255, 255);
+    font-weight:bolder;
+}
+
+.logOutButton {
+    background-color: rgb(59, 153, 161);
+    border-color:  rgb(59, 153, 161);
+}
+
+.loginButton {
+    background-color: rgb(52, 173, 62);
+    border-color: none;
+}

@@ -43,7 +43,7 @@ class Dashboard extends React.Component {
     render() {
         return (
             <>
-                <form className="w-50 p3 mx-auto mb-5" onSubmit={this.getSearchResults} >
+                <form className="w-50 p3 mx-auto mb-3 mt-3" onSubmit={this.getSearchResults} >
                     <input className="w-75 p3" onChange={(e) => this.setState({ searchQuery: e.target.value })} placeholder="find movies or shows" />
                     <button className="w-25 p3" type="submit">Search</button>
                 </form>

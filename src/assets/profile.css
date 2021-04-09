@@ -1,0 +1,32 @@
+.deleteMovie {
+  height: 30px;
+  border-radius: 50%;
+  color: brown;
+}
+
+.overview {
+  font-size: calc(.5em + 1vw);
+  color:rgb(118, 118, 118)
+}
+
+.myWatchList {
+  font-size: calc(2em + 2vw);
+  font-weight: bold;
+  font-family: Futura;
+  color:rgb(2, 71, 221);
+}
+
+.rating{
+  font-size: calc(.5em + .7vw);
+  color:rgb(82, 37, 153);
+  font-weight: bold;
+}
+
+.releaseDate {
+  font-size: calc(.5em + .7vw);
+}
+
+.title {
+  font-family: Futura;
+  font-size: calc(1em + 1.5vw);
+}

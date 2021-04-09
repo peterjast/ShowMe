@@ -175,7 +175,7 @@ class Profile extends React.Component {
                     :
                     this.props.watchList.map((mediaObj, idx) => (
                         <Jumbotron key={mediaObj._id} index={idx}>
-                            <Row>
+                            <Row className = "mt-5">
                                 <h1>{mediaObj.title}</h1>
                                 <Delete deleteMovie={this.deleteMovie} movieId={mediaObj._id}>x</Delete>
                             </Row>

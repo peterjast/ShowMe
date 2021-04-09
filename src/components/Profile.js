@@ -22,7 +22,8 @@ class Profile extends React.Component {
             user_rating: 0,
             movieId: '',
             idx: 0,
-            comments: []
+            comments: [],
+            commentId: ''
         }
     }
 
@@ -63,10 +64,11 @@ class Profile extends React.Component {
             console.log('movie id', movieId);
             const newWatchList = this.props.watchList.filter(movie => movie._id !== movieId);
             console.log('new watch list', newWatchList)
-            this.props.handleWatchList(newWatchList);
+            // this.props.handleWatchList(newWatchList);
             const server = process.env.REACT_APP_SERVER;
             const newMovies = await axios.delete(`${server}/watchlist/movie/${movieId}`, { params: { email: this.props.properties.auth0.user.email } });
-            console.log(newMovies);
+            console.log('NEW', newMovies);
+            this.props.handleWatchList(newWatchList);
             // const newMoviesArr = newMovies.data;
             // this.props.handleWatchList(newMoviesArr);
             this.props.getUser();
@@ -75,15 +77,15 @@ class Profile extends React.Component {
         }
     }
 
-    deleteComment = async (commentToDelete) => {
+    deleteComment = async(commentId) => {
         try {
 
             // eslint-disable-next-line no-undef
-            const newComments = this.props.comments.filter(comment !== commentToDelete);
-            this.props.handleComments(newComments);
+            const newCommentsArr = this.props.comments.filter(comment => comment._id !== commentId);
             const server = process.env.REACT_APP_SERVER;
-            const newMovies = await axios.delete(`${server}/watchlist/${commentToDelete}`, { params: { email: this.props.properties.auth0.user.email } });
-            console.log(newMovies);
+            const newComments = await axios.delete(`${server}/watchlist/comment/${commentId}`, { params: { email: this.props.properties.auth0.user.email } });
+            console.log('NEW COMMENTS', newComments);
+            this.props.handleComments(newCommentsArr);
             this.props.getUser();
         } catch (err) {
             console.log(err.message);
@@ -123,16 +125,18 @@ class Profile extends React.Component {
         this.setState({ show: false })
     }
 
-    updateComments = async () => {
+    updateComments = async (commentId) => {
         try {
-            console.log('I am here', this.state);
-            console.log(this.props.comments);
+            // const commArr = this.props.comments;
+            // const index = commArr.indexOf((this.props.comments.filter(comment => comment._id === commentId))[0]);
+            // const comm = {user_rating: this.props.user_rating, comment: this.props.comment};
+            // commArr.splice(index, 1, comm);
+
             // this.props.watchList[this.props.movieIndex].comments.splice([this.state.idx], 1);
             const server = process.env.REACT_APP_SERVER;
-            const newComments = await axios.post(`${server}/watchlist/${this.state.movieId}/${this.state.idx}`, { comment: this.state.comment, rating: this.state.user_rating, email: this.props.properties.auth0.user.email });
+            const newComments = await axios.post(`${server}/watchlist/${commentId}`, { comment: this.state.comment, rating: this.state.user_rating, email: this.props.properties.auth0.user.email });
             const newCommentArr = newComments.data;
             console.log(newCommentArr);
-            this.setState({ comments: newCommentArr });
             this.props.handleComments(newCommentArr);
             this.props.getUser();
         } catch (err) {
@@ -140,20 +144,9 @@ class Profile extends React.Component {
         }
     }
 
-    displayUpdateForm = (movieId) => {
-
-        const newArr = this.props.watchList.filter((movie) => movie._id === movieId);
-        console.log('newArr', newArr);
-        const movieIndex = this.props.watchList.indexOf(newArr[0]);
-        console.log(movieIndex);
-        // const newCommentArr = newArr[0].comments.filter(comment => comment._id === commentId);
-        // const commentIndex = newArr[0].comments.indexOf(newCommentArr[0]);
-        const comment = this.props.watchList[movieIndex].comment;
-
-        this.setState({ comment, movieIndex, movieId, idx: this.props.idx });
-        console.log(movieId);
-        this.setState({ showUpdate: true });
-    }
+    displayUpdateForm = (commentId) => {
+        this.setState({ commentId, showUpdate: true })
+    };
 
 
     render() {
@@ -244,7 +237,7 @@ class Profile extends React.Component {
                                                                 <h2>{this.props.properties.auth0.user.name}</h2>
                                                                 <p className="lead text-dark">{this.props.properties.auth0.user.email}</p>
                                                             </div>
-                                                            <DeleteComment deleteComment={this.deleteComment} movieId={commentObj._id} idx={idx} comment={this.props.comments}>x</DeleteComment>
+                                                            <DeleteComment deleteComment={this.deleteComment} commentId={commentObj._id}>x</DeleteComment>
                                                         </div>
                                                     </div>
                                                 </Card.Header>

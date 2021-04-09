@@ -30,7 +30,7 @@ class App extends React.Component {
   }; 
 
   handleComments  = (comments) => {
-    this.setState({comments});
+    this.setState({comments: comments});
     console.log()
 }; 
 
@@ -95,8 +95,6 @@ class App extends React.Component {
                 <Route exact path="/">
                   { this.props.auth0.isAuthenticated ? 
                   <Dashboard
-                  handleComments={this.handleComments}
-                  handleWatchList= {this.handleWatchList}
                   properties={this.props} 
                   addMovie={this.addMovie} 
                   watchList={this.state.watchList}/> 
@@ -107,6 +105,8 @@ class App extends React.Component {
                 <Route exact path="/profile">
                   { this.props.auth0.isAuthenticated ? 
                   <Profile
+                  handleComments={this.handleComments}
+                  handleWatchList= {this.handleWatchList}
                   comments={this.state.comments} 
                   properties={this.props} 
                   watchList={this.state.watchList}

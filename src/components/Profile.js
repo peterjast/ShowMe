@@ -154,7 +154,7 @@ class Profile extends React.Component {
     render() {
         return (
             <>
-                <div className="mx-auto">
+                <div className="mx-auto mt-5">
                     <div className="row align-items-center profile-header">
                         <div className="col-md-2 mb-3">
                             <img
@@ -176,9 +176,6 @@ class Profile extends React.Component {
                     :
                     this.props.watchList.map((mediaObj, idx) => (
                         <Jumbotron key={mediaObj._id} index={idx}>
-                            <Row className = "mt-5">
-                                <h1>{mediaObj.title}</h1>
-                            </Row>
                             <Row>
                                 <Col>
                                     <Card key={mediaObj._id} className="mx-auto mb-5 mt-2 float-left" bg="dark" text="light">

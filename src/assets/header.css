@@ -10,11 +10,13 @@
 .discover {
     margin: auto;
     color:rgb(248, 4, 4);
+    font-family: 'Montserrat', sans-serif;
     font-weight:bolder;
 }
 
 .watchList {
     color:rgb(247, 6, 6);
+    font-family: 'Montserrat', sans-serif;
     font-weight:bolder;
 }
 

@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-class CommentForm extends React.Component {
+class UpdateForm extends React.Component {
   
   render() {
     return (
@@ -47,4 +47,4 @@ class CommentForm extends React.Component {
   }
 }
 
-export default CommentForm;
+export default UpdateForm;

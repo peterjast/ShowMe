@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
 .deleteMovie {
   height: 30px;
   border-radius: 50%;
@@ -12,7 +14,7 @@
 .myWatchList {
   font-size: calc(2em + 2vw);
   font-weight: bold;
-  font-family: Futura;
+  font-family: 'Montserrat', sans-serif;
   color:rgb(2, 71, 221);
 }
 
@@ -27,6 +29,6 @@
 }
 
 .title {
-  font-family: Futura;
+  font-family: 'Montserrat', sans-serif;
   font-size: calc(1em + 1.5vw);
 }

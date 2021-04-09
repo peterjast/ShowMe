@@ -153,7 +153,7 @@ class Profile extends React.Component {
     render() {
         return (
             <>
-                <div className="mx-auto">
+                <div className="mx-auto mt-5">
                     <div className="row align-items-center profile-header">
                         <div className="col-md-2 mb-3">
                             <img
@@ -225,7 +225,7 @@ class Profile extends React.Component {
                                         "Leave your first comment!"
                                         :
                                         this.props.comments.map((commentObj, idx) => (
-                                            <Card key={commentObj._id} index={idx}>
+                                            <Card className="w-100" key={commentObj._id} index={idx}>
                                                 <Card.Header>
                                                     <div className="mx-auto">
                                                         <div className="row align-items-center">

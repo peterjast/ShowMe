@@ -1,4 +1,4 @@
-# Sleuthify
+# ShowMe
 
 Contributers: Dan Engel && Jeremy Brazell && Peter Staker
 

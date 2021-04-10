@@ -67,7 +67,7 @@ class Profile extends React.Component {
             console.log('new watch list', newWatchList)
             // this.props.handleWatchList(newWatchList);
             const server = process.env.REACT_APP_SERVER;
-            const newMovies = await axios.delete(`${server}/watchlist/movie/${movieId}`, { params: { email: this.props.properties.auth0.user.email } });
+            const newMovies = await axios.delete(`${server}/delete-movie/${movieId}`, { params: { email: this.props.properties.auth0.user.email } });
             console.log('NEW', newMovies);
             this.props.handleWatchList(newWatchList);
             // const newMoviesArr = newMovies.data;
@@ -84,7 +84,7 @@ class Profile extends React.Component {
             // eslint-disable-next-line no-undef
             const newCommentsArr = this.props.comments.filter(comment => comment._id !== commentId);
             const server = process.env.REACT_APP_SERVER;
-            const newComments = await axios.delete(`${server}/watchlist/comment/${commentId}`, { params: { email: this.props.properties.auth0.user.email } });
+            const newComments = await axios.delete(`${server}/delete-comment/${commentId}`, { params: { email: this.props.properties.auth0.user.email } });
             console.log('NEW COMMENTS', newComments);
             this.props.handleComments(newCommentsArr);
             this.props.getUser();
@@ -129,18 +129,18 @@ class Profile extends React.Component {
     updateComments = async (commentId) => {
         console.log("inside update")
         try {
-            // const commArr = this.props.comments;
-            // const index = commArr.indexOf((this.props.comments.filter(comment => comment._id === commentId))[0]);
-            // const comm = {user_rating: this.props.user_rating, comment: this.props.comment};
-            // commArr.splice(index, 1, comm);
+            const commArr = this.props.comments;
+            const index = commArr.indexOf((this.props.comments.filter(comment => comment._id === commentId))[0]);
+            const comm = {user_rating: this.props.user_rating, comment: this.props.comment};
+            commArr.splice(index, 1, comm);
 
             // this.props.watchList[this.props.movieIndex].comments.splice([this.state.idx], 1);
             const server = process.env.REACT_APP_SERVER;
-            await axios.put(`${server}/comment/${commentId}`, {comment: this.state.comment, rating: this.state.user_rating, email: this.props.properties.auth0.user.email});
+            await axios.post(`${server}/watchlist/comment/${commentId}`, {comment: this.state.comment, rating: this.state.user_rating, email: this.props.properties.auth0.user.email});
             // const newCommentArr = newComments.data;
             // console.log(newCommentArr);
-            // this.props.handleComments(newCommentArr);
-            await this.props.getUser();
+            this.props.handleComments(commArr);
+            this.props.getUser();
         } catch (err) {
             console.log(err.message);
         }
@@ -223,10 +223,10 @@ class Profile extends React.Component {
                             <Jumbotron>
                                 <Row>
                                     {this.props.comments === undefined ?
-                                        "Leave your first comment!"
+                                       <p>"Leave your first comment!"</p>
                                         :
                                         this.props.comments.map((commentObj, idx) => (
-                                            <Card key={commentObj._id} index={idx}>
+                                            <Card className="w-100" key={commentObj._id} index={idx}>
                                                 <Card.Header>
                                                     <div className="mx-auto">
                                                         <div className="row align-items-center">

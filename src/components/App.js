@@ -49,7 +49,7 @@ class App extends React.Component {
         e.preventDefault();
         try {
           const server = process.env.REACT_APP_SERVER;
-          const results = await axios.post(`${server}/watchlist`, {rating, comment, movieId, email});
+          const results = await axios.post(`${server}/add-comment`, {rating, comment, movieId, email});
           this.setState({ comments: results.data.comments });
         } catch (err) {
           console.log(err.message);
@@ -62,7 +62,7 @@ class App extends React.Component {
     console.log(title, overview, poster_path, release_date, rating, email);
     try {
       const server = process.env.REACT_APP_SERVER;
-      const watchList = await axios.post(`${server}/watchlist/movie`, { title: title, overview: overview, poster_path: poster_path, release_date: release_date, rating: rating, email: email });
+      const watchList = await axios.post(`${server}/add-movie`, { title: title, overview: overview, poster_path: poster_path, release_date: release_date, rating: rating, email: email });
       console.log('inside add a movie', watchList);
       this.setState({ watchList: watchList.data });
     } catch (err) {

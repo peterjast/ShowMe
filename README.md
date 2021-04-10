@@ -2,7 +2,7 @@
 
 Contributers: Dan Engel && Jeremy Brazell && Peter Staker
 
-Sleuthify is a simple solution for exploring new music. Users can discover new music and store songs, comments and ratings.
+Sleuthify is a simple solution for exploring new movies. Users can discover movies, store them to their watchlist and add comments and ratings.
 
 ## Conflict Plan
 

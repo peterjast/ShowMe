@@ -136,7 +136,7 @@ class Profile extends React.Component {
 
             // this.props.watchList[this.props.movieIndex].comments.splice([this.state.idx], 1);
             const server = process.env.REACT_APP_SERVER;
-            await axios.post(`${server}/watchlist/comment/${commentId}`, {comment: this.state.comment, rating: this.state.user_rating, email: this.props.properties.auth0.user.email});
+            await axios.post(`${server}/watchlist/${commentId}`, {comment: this.state.comment, rating: this.state.user_rating, email: this.props.properties.auth0.user.email});
             // const newCommentArr = newComments.data;
             // console.log(newCommentArr);
             this.props.handleComments(commArr);

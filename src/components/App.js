@@ -121,7 +121,6 @@ class App extends React.Component {
                 </Route>
               </Switch>
             </Container>
-            <Footer />
           </IsLoadingAndError>
         </Router>
     )

@@ -11,7 +11,11 @@ class Login extends React.Component {
         <Card.Body>
           <Card.Title>Log In</Card.Title>
           <Card.Text>
-            Click Below to Log In
+            Demo Credentials:
+            <br></br>
+            Email address: demo@demo.com
+            <br></br>
+            Password: Demo1234!
           </Card.Text>
           <LoginButton />
         </Card.Body>

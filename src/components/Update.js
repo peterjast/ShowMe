@@ -7,7 +7,7 @@ class Update extends React.Component {
       <Button 
       style={{float: 'right'}} 
       className="float-right mr-5 bg-info" 
-      onClick={()=>this.props.displayUpdateForm(this.props.commentId, this.props.comment)}
+      onClick={()=>this.props.displayUpdateForm(this.props.commentId, this.props.comment, this.props.user_rating)}
       >
       Edit
       </Button>

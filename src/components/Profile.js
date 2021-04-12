@@ -12,6 +12,7 @@ import DeleteComment from './DeleteComment';
 import Update from './Update';
 import UpdateForm from './UpdateForm';
 import '../assets/profile.css';
+import StarRating from 'react-star-ratings';
 
 class Profile extends React.Component {
     constructor (props) {
@@ -26,7 +27,8 @@ class Profile extends React.Component {
             comments: [],
             commentId: '',
             currentComment: '',
-            selectedComment: ''
+            selectedComment: '',
+            currentRating: 0
         }
     }
 
@@ -140,7 +142,7 @@ class Profile extends React.Component {
 
             // this.props.watchList[this.props.movieIndex].comments.splice([this.state.idx], 1);
             const server = process.env.REACT_APP_SERVER;
-            await axios.put(`${server}/watchlist/${commentId}`, {comment: comment, rating: user_rating, email: email});
+            await axios.put(`${server}/watchlist/${commentId}`, {comment: comment, user_rating: user_rating, email: email});
             // const newCommentArr = newComments.data;
             // console.log(results.data.comments);
             // console.log(newCommentArr);
@@ -151,11 +153,17 @@ class Profile extends React.Component {
         }
     }
 
-    displayUpdateForm = (commentId, comment) => {
-        this.setState({ currentComment: commentId, showUpdate: true, selectedComment: comment})
+    displayUpdateForm = (commentId, comment, user_rating) => {
+        this.setState({ currentComment: commentId, showUpdate: true, selectedComment: comment, currentRating: user_rating})
     };
 
+    handleRatingClick = (e, data) => {
 
+        alert('You left a ' + data.rating + ' star rating for ' + data.caption);
+    
+    }
+    
+     
     render() {
         return (
             <>
@@ -226,13 +234,14 @@ class Profile extends React.Component {
                                                     </div>
                                                 </Card.Header>
                                                 <Card.Body>
-                                                    <Card.Title>Rating: {commentObj.user_rating}</Card.Title>
+                                                    <Card.Title><StarRating name="handler" caption="Use onClick Handlers!" starRatedColor="green" totalStars={5} rating={commentObj.user_rating} onRatingClick={this.handleRatingClick} /></Card.Title>
                                                     <Card.Text>
                                                         {commentObj.comment}
                                                     </Card.Text>
                                                     <Update
                                                         commentId={commentObj._id}
                                                         comment={commentObj.comment}
+                                                        user_rating={commentObj.user_rating}
                                                         displayUpdateForm={this.displayUpdateForm}
                                                     />
                                                     {this.state.showUpdate &&
@@ -245,6 +254,7 @@ class Profile extends React.Component {
                                                             handleClose={this.handleCloseUpdateForm}
                                                             updateUserComment={this.updateUserComment}
                                                             updateUserRating={this.updateUserRating}
+                                                            userRating={this.state.currentRating}
                                                             email={this.props.properties.auth0.user.email}
                                                         />
                                                     }

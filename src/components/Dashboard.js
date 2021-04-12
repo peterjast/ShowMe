@@ -7,6 +7,7 @@ import Carousel from './Carousel.js';
 import './Carousel.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import '../assets/dashboard.css'
 
 class Dashboard extends React.Component {
     constructor(props) {

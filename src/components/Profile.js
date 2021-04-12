@@ -191,7 +191,7 @@ class Profile extends React.Component {
                         <Jumbotron key={mediaObj._id} index={idx}>
                             <Row>
                                 <Col>
-                                    <Card key={mediaObj._id} className="mx-auto mb-5 mt-2 float-left" bg="dark" text="light">
+                                    <Card key={mediaObj._id} className="mx-auto mb-5 mt-0 float-left" bg="dark" text="light">
                                         <Card.Img variant="top" alt={mediaObj.title} src={`https://www.themoviedb.org/t/p/original${mediaObj.poster_path}`} />
                                     </Card>
                                 </Col>
@@ -284,7 +284,6 @@ class Profile extends React.Component {
                                     email={this.props.properties.auth0.user.email} />
                                 }
                                 
-
                                 <Delete deleteMovie={this.deleteMovie} movieId={mediaObj._id}>x</Delete>
                             </Row>
                             </Jumbotron>

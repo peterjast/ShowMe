@@ -79,7 +79,7 @@ class Trending extends React.Component {
     return (
       <>
         <Container>
-          <h1 className="mb-1">Trending Movies</h1>
+          <h1 id="trending-header" className="mb-1">Trending Movies</h1>
           <Row>
             {this.state.displayMovies &&
               <Carousel

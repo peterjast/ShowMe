@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
 .searchBox {
     background-clip:blue;
 }
 
 #search-button {
     font-size: calc(.5em + .7vw);
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight:bolder;
 }

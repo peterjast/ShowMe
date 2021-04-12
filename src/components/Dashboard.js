@@ -34,7 +34,7 @@ class Dashboard extends React.Component {
                 searchResults: searchResults
             });
 
-            console.log('searchResults:', searchResults);
+            // console.log('searchResults:', searchResults);
         } catch (err) {
             console.log(err);
         }

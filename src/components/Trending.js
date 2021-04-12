@@ -34,8 +34,8 @@ class Trending extends React.Component {
           trendingMovies: movies.data.movieArray,
           displayMovies: true
         })
-        console.log('movies:', movies);
-        console.log('moviesdata', movies.data);
+        // console.log('movies:', movies);
+        // console.log('moviesdata', movies.data);
       })
       .catch(err => { console.log(err.message) })
 
@@ -57,10 +57,6 @@ class Trending extends React.Component {
 
   displayDetails = (movie) => {
     this.setState({ show: true, currentMovie: movie });
-  }
-
-  addMovie = () => {
-    console.log('this is where I would add a movie');
   }
 
   // <AddMovie index={i} addMovie={this.addMovie}/> <Button inline index={i} onClick={this.displayDetails(movie)}>Details</Button>

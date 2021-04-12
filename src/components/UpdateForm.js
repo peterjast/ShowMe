@@ -29,28 +29,11 @@ class UpdateForm extends React.Component {
         <Modal.Body>
           <Form onSubmit={(e) => this.props.updateComments(e, this.state.user_rating, this.state.comment, this.props.commentId, this.props.email)}>
             <Form.Group controlId="title">
-              <Form.Label>Comment</Form.Label>
-              <Form.Control type="text" placeholder="Comment Here" onChange={(e)=>this.updateUserComment(e)}/>
-            </Form.Group>
-
-            <Form.Group controlId="rating">
-              <Form.Label>Rating</Form.Label>
-              <Form.Control as="select" type="number" placeholder="User Rating" onChange={(e)=>this.updateUserRating(e)}>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </Form.Control>
+              <Form.Control type="text" placeholder={this.props.selectedComment} onChange={(e)=>this.updateUserComment(e)}/>
             </Form.Group>
 
             <Button variant="primary" type="submit">
-              Submit
+              Update
             </Button>
           </Form>
         </Modal.Body>

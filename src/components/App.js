@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import IsLoadingAndError from './IsLoadingAndError';
-import Footer from './Footer';
+// import Footer from './Footer';
 import Login from './Login';
 import Profile from './Profile';
 import '../assets/App.css';
@@ -31,7 +31,6 @@ class App extends React.Component {
 
   handleComments  = (comments) => {
     this.setState({comments: comments});
-    console.log()
 }; 
 
   // addUser = () => {
@@ -48,8 +47,8 @@ class App extends React.Component {
     axios.get(`${SERVER}/watchlist`, { params: { email: this.props.auth0.user.email } })
       .then(result => {
         this.setState({ watchList: result.data.watchList, comments: result.data.comments });
-        console.log('watchList', result.data);
-        console.log(this.state);
+        // console.log('watchList', result.data);
+        // console.log(this.state);
       })
       .catch(error => { 
         console.log(error.message) 
@@ -69,12 +68,12 @@ class App extends React.Component {
 
   addMovie = async (e, title, overview, poster_path, release_date, rating, email) => {
     e.preventDefault();
-    console.log(this.props.auth0.user.email);
-    console.log(title, overview, poster_path, release_date, rating, email);
+    // console.log(this.props.auth0.user.email);
+    // console.log(title, overview, poster_path, release_date, rating, email);
     try {
       const server = process.env.REACT_APP_SERVER;
       const watchList = await axios.post(`${server}/add-movie`, { title: title, overview: overview, poster_path: poster_path, release_date: release_date, rating: rating, email: email });
-      console.log('inside add a movie', watchList);
+      // console.log('inside add a movie', watchList);
       this.setState({ watchList: watchList.data });
     } catch (err) {
       console.log(err.message);
@@ -96,7 +95,7 @@ class App extends React.Component {
 //     }
 
   render(){
-    console.log('app', this.props)
+    // console.log('app', this.props)
     return(
         <Router>
           <IsLoadingAndError>

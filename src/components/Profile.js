@@ -25,7 +25,8 @@ class Profile extends React.Component {
             idx: 0,
             comments: [],
             commentId: '',
-            currentComment: ''
+            currentComment: '',
+            selectedComment: ''
         }
     }
 
@@ -33,7 +34,7 @@ class Profile extends React.Component {
         try {
             await this.props.getUser();
             this.setState({comments: this.props.comments})
-            console.log(this.state.comments, this.props.comments)
+            // console.log(this.state.comments, this.props.comments)
         } catch (err) {
             console.log(err.message)
         }
@@ -68,8 +69,8 @@ class Profile extends React.Component {
             console.log('new watch list', newWatchList)
             // this.props.handleWatchList(newWatchList);
             const server = process.env.REACT_APP_SERVER;
-            const newMovies = await axios.delete(`${server}/delete-movie/${movieId}`, { params: { email: this.props.properties.auth0.user.email } });
-            console.log('NEW', newMovies);
+            await axios.delete(`${server}/delete-movie/${movieId}`, { params: { email: this.props.properties.auth0.user.email } });
+            // console.log('NEW', newMovies);
             this.props.handleWatchList(newWatchList);
             // const newMoviesArr = newMovies.data;
             // this.props.handleWatchList(newMoviesArr);
@@ -85,8 +86,8 @@ class Profile extends React.Component {
             // eslint-disable-next-line no-undef
             const newCommentsArr = this.props.comments.filter(comment => comment._id !== commentId);
             const server = process.env.REACT_APP_SERVER;
-            const newComments = await axios.delete(`${server}/delete-comment/${commentId}`, { params: { email: this.props.properties.auth0.user.email } });
-            console.log('NEW COMMENTS', newComments);
+            await axios.delete(`${server}/delete-comment/${commentId}`, { params: { email: this.props.properties.auth0.user.email } });
+            // console.log('NEW COMMENTS', newComments);
             this.props.handleComments(newCommentsArr);
             this.props.getUser();
         } catch (err) {
@@ -129,8 +130,8 @@ class Profile extends React.Component {
 
     updateComments = async (e, user_rating, comment, commentId, email) => {
         e.preventDefault();
-        console.log("inside update")
-        console.log(commentId);
+        // console.log("inside update")
+        // console.log(commentId);
         try {
             // const commArr = this.props.comments;
             // const index = commArr.indexOf((this.props.comments.filter(comment => comment._id === commentId))[0]);
@@ -139,19 +140,19 @@ class Profile extends React.Component {
 
             // this.props.watchList[this.props.movieIndex].comments.splice([this.state.idx], 1);
             const server = process.env.REACT_APP_SERVER;
-            const results = await axios.put(`${server}/watchlist/${commentId}`, {comment: comment, rating: user_rating, email: email});
+            await axios.put(`${server}/watchlist/${commentId}`, {comment: comment, rating: user_rating, email: email});
             // const newCommentArr = newComments.data;
-            console.log(results.data.comments);
+            // console.log(results.data.comments);
             // console.log(newCommentArr);
-            this.props.handleComments(results.data.comments);
+            // this.props.handleComments(results.data.comments);
             this.props.getUser();
         } catch (err) {
             console.log(err.message);
         }
     }
 
-    displayUpdateForm = (commentId) => {
-        this.setState({ currentComment: commentId, showUpdate: true })
+    displayUpdateForm = (commentId, comment) => {
+        this.setState({ currentComment: commentId, showUpdate: true, selectedComment: comment})
     };
 
 
@@ -231,10 +232,12 @@ class Profile extends React.Component {
                                                     </Card.Text>
                                                     <Update
                                                         commentId={commentObj._id}
+                                                        comment={commentObj.comment}
                                                         displayUpdateForm={this.displayUpdateForm}
                                                     />
                                                     {this.state.showUpdate &&
                                                         <UpdateForm
+                                                            selectedComment={this.state.selectedComment}
                                                             commentId={this.state.currentComment}
                                                             show={this.state.showUpdate}
                                                             updateComments={this.updateComments}

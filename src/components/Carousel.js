@@ -3,7 +3,7 @@ import './Carousel.css'
 
 const Carousel = (props) => {
     const { children } = props
-    console.log(props);
+    // console.log(props);
     const [currentIndex, setCurrentIndex] = useState(0)
     const [length, setLength] = useState(children.length)
 
@@ -75,7 +75,7 @@ const Carousel = (props) => {
         };
     }
     const responsive = (window) => {
-        console.log('inside trending', window);
+        // console.log('inside trending', window);
          if (window > 1600){
            return 4;
          } else if (window < 1600 && window > 1024){

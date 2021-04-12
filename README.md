@@ -1,12 +1,14 @@
-# Espresso
+# Sleuthify
 
 Contributers: Dan Engel && Jeremy Brazell && Peter Staker
+
+Sleuthify is a simple solution for exploring new music. Users can discover new music and store songs, comments and ratings.
 
 ## Conflict Plan
 
 What is the group process to resolve conflict, when it arises?
 
-Try to reach internal resolution by to finding middle ground and compromise. Have third member mediate.
+Try to reach internal resolution by to finding middle ground and compromise. Have third member mediate. Step away from conflict to reflect before further discussion.
 
 How will you raise concerns to members who are not adequately contributing?
 
@@ -20,7 +22,7 @@ If we're unable to resolve the conflict after multiple attempts and civil discou
 
 How will you communicate after hours and on the weekend?
 
-Slack - keep notifications on during agreed upon windows of availability
+Slack - keep notifications on during agreed upon windows of availability - 9am-9pm
 
 What is your strategy for ensuring everyone’s voice is heard?
 
@@ -40,7 +42,7 @@ What project management tool will be used?
 
 Trello
 
-### Git Process
+## Git Process
 
 What components of your project will live on GitHub?
 
@@ -70,3 +72,15 @@ Often.
 How will you communicate that it’s time to merge?
 
 We will have all reviewed the code.
+
+---
+
+## Domain Model
+
+![Domain Model](src/assets/domainModel.png)
+
+---
+
+## Wireframe
+
+![WireFrame](src/assets/wireframe.png)

@@ -1,0 +1,18 @@
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+
+class Update extends React.Component {
+  render(){
+    return(
+      <Button 
+      style={{float: 'right'}} 
+      className="float-right mr-5 bg-info" 
+      onClick={()=>this.props.displayUpdateForm(this.props.commentId, this.props.comment, this.props.user_rating)}
+      >
+      Edit
+      </Button>
+    )
+  }
+}
+
+export default Update;

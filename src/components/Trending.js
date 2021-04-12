@@ -83,6 +83,7 @@ class Trending extends React.Component {
     return (
       <>
         <Container>
+          <h1 className="mb-1">Trending Movies</h1>
           <Row>
             {this.state.displayMovies &&
               <Carousel
@@ -105,9 +106,6 @@ class Trending extends React.Component {
                         </Card.Text>
                         <Card.Text className="cardRating">
                           {`Rating: ${movie.rating}`}
-                        </Card.Text>
-                        <Card.Text className="cardText">
-                          {movie.overview}
                         </Card.Text>
                         <Button variant="success" className = "cardButton" onClick={(e) => {this.props.addMovie(e, movie.title, movie.overview, movie.poster_path, movie.release_date, movie.rating, this.props.email); this.setState({ smShow:true })}}>
                           Add To Watchlist
@@ -136,7 +134,7 @@ class Trending extends React.Component {
             }
           </Row>
           {/* <DetailsModal show={this.state.displayDetails} movie={this.state.currentMovie} /> */}
-          <Row>
+          {/* <Row>
             {this.state.displayShows &&
               <Carousel className="w-50 mx-auto">
                 {this.state.trendingShows.map((show, i) => (
@@ -177,7 +175,7 @@ class Trending extends React.Component {
                 ))}
               </Carousel>
             }
-          </Row>
+          </Row> */}
           {/* <DetailsModal show={this.state.displayDetails} movie={this.state.currentMovie} /> */}
         </Container>
       </>

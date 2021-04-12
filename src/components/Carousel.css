@@ -75,11 +75,11 @@
 }
 
 .cardText {
-  overflow: scroll;
+  overflow: hidden;
   height: 100px;
 }
 
-.modal {
+/* .modal {
   width: 300px;
     height: 300px;
     position: absolute;
@@ -88,7 +88,7 @@
     margin-top: -150px;
     margin-left: -150px;
     z-index: 9999;
-}
+} */
 
 .modal-backdrop {
   position: fixed;

@@ -21,7 +21,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       watchList: [],
-      comments: []
+      comments: [],
     }
   }
 
@@ -34,6 +34,15 @@ class App extends React.Component {
     console.log()
 }; 
 
+  // addUser = () => {
+  //   const SERVER = process.env.REACT_APP_SERVER;
+  //   axios.post(`${SERVER}/watchlist`, { email: this.props.auth0.user.email })
+  //     .then(result => {
+  //       this.setState({ email: result.data.email });
+  //     })
+  //     .catch(error => { console.log(error.message) })
+  // }
+
   getUser = () => {
     const SERVER = process.env.REACT_APP_SERVER;
     axios.get(`${SERVER}/watchlist`, { params: { email: this.props.auth0.user.email } })
@@ -42,7 +51,9 @@ class App extends React.Component {
         console.log('watchList', result.data);
         console.log(this.state);
       })
-      .catch(error => { console.log(error.message) })
+      .catch(error => { 
+        console.log(error.message) 
+      })
   }
 
     addComment = async(e, rating, comment, movieId, email) => {

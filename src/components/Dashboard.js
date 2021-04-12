@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
             <>
                 <form className="w-50 p3 mx-auto mb-3 mt-3" onSubmit={this.getSearchResults} >
                     <input className="w-75 p3" onChange={(e) => this.setState({ searchQuery: e.target.value })} placeholder="find movies or shows" />
-                    <Button variant="primary" size="sm" className="w-25 p3 mb-1 " type="submit">Search</Button>
+                    <Button id="search-button" variant="success" size="sm" className="w-25 p3 mb-1 " type="submit">Search</Button>
                 </form>
                 {!this.state.displaySearchResults ?
                     <Trending
@@ -56,7 +56,10 @@ class Dashboard extends React.Component {
                     <Carousel
                         style={{ maxWidth: 1800, marginLeft: 'auto', marginRight: 'auto', marginTop: 64 }}
                         className="w-50 mx-auto">
-                        {this.state.searchResults.map((mediaObj, index) => (
+                        {this.state.searchResults.length === 0 ?
+                        <h2>Sorry... try searching for something else.</h2>
+                        : 
+                        this.state.searchResults.map((mediaObj, index) => (
                             mediaObj.poster_path &&
                             // <div key={i}>
                             <Card key={index} style={{ width: '18rem'}}>
@@ -72,7 +75,7 @@ class Dashboard extends React.Component {
                                     <Card.Text className="cardText">
                                      {`Overview: ${mediaObj.overview}`}
                                     </Card.Text>
-                                    <Button variant="success" className = "cardButton" onClick={(e) => {this.props.addMovie(e, mediaObj.title, mediaObj.overview, mediaObj.poster_path, mediaObj.release_date, mediaObj.rating, this.props.email); this.setState({ smShow:true })}}>
+                                    <Button variant="success" className = "cardButton" onClick={(e) => {this.props.addMovie(e, mediaObj.title, mediaObj.overview, mediaObj.poster_path, mediaObj.release_date, mediaObj.rating, this.props.properties.auth0.user.email); this.setState({ smShow:true })}}>
                                         Add To Watchlist
                                     </Button>
                                 </Card.Body>

@@ -24,7 +24,8 @@ class Profile extends React.Component {
             movieId: '',
             idx: 0,
             comments: [],
-            commentId: ''
+            commentId: '',
+            currentComment: ''
         }
     }
 
@@ -118,28 +119,31 @@ class Profile extends React.Component {
         this.setState({ showUpdate: false })
     }
 
-    handleAddComment = () => {
-        this.setState({ show: true })
+    handleAddComment = (movieId) => {
+        this.setState({ show: true, currentId: movieId })
     }
 
     handleClose = () => {
         this.setState({ show: false })
     }
 
-    updateComments = async (commentId) => {
+    updateComments = async (e, user_rating, comment, commentId, email) => {
+        e.preventDefault();
         console.log("inside update")
+        console.log(commentId);
         try {
-            const commArr = this.props.comments;
-            const index = commArr.indexOf((this.props.comments.filter(comment => comment._id === commentId))[0]);
-            const comm = {user_rating: this.props.user_rating, comment: this.props.comment};
-            commArr.splice(index, 1, comm);
+            // const commArr = this.props.comments;
+            // const index = commArr.indexOf((this.props.comments.filter(comment => comment._id === commentId))[0]);
+            // const comm = {user_rating: this.props.user_rating, comment: this.props.comment};
+            // commArr.splice(index, 1, comm);
 
             // this.props.watchList[this.props.movieIndex].comments.splice([this.state.idx], 1);
             const server = process.env.REACT_APP_SERVER;
-            await axios.post(`${server}/watchlist/${commentId}`, {comment: this.state.comment, rating: this.state.user_rating, email: this.props.properties.auth0.user.email});
+            const results = await axios.put(`${server}/watchlist/${commentId}`, {comment: comment, rating: user_rating, email: email});
             // const newCommentArr = newComments.data;
+            console.log(results.data.comments);
             // console.log(newCommentArr);
-            this.props.handleComments(commArr);
+            this.props.handleComments(results.data.comments);
             this.props.getUser();
         } catch (err) {
             console.log(err.message);
@@ -147,7 +151,7 @@ class Profile extends React.Component {
     }
 
     displayUpdateForm = (commentId) => {
-        this.setState({ commentId, showUpdate: true })
+        this.setState({ currentComment: commentId, showUpdate: true })
     };
 
 
@@ -195,43 +199,18 @@ class Profile extends React.Component {
                                     </p>
                                 </Col>
                             </Row>
-                                <Row>
-                                    <AddComment
-                                        key={idx}
-                                        idx={idx}
-                                        show={this.handleAddComment}>
-                                        Comment
-                                    </AddComment>
-                  
-                                {this.state.show &&
-                                    <CommentForm
-                                    movieId={idx}
-                                    idx={idx}
-                                    show={this.state.show}
-                                    addComment={this.props.addComment}
-                                    updateUserComment={this.props.updateUserComment}
-                                    updateUserRating={this.props.updateUserRating}
-                                    handleClose={this.handleClose}
-                                    email={this.props.properties.auth0.user.email} />
-                                }
-                                
-
-                                <Delete deleteMovie={this.deleteMovie} movieId={mediaObj._id}>x</Delete>
-                            </Row>
-                            </Jumbotron>
-                            ))}
-                            <Jumbotron>
-                                <Row>
+                                <Row className="mb-5">
                                     {this.props.comments === undefined ?
                                        <p>"Leave your first comment!"</p>
                                         :
                                         this.props.comments.map((commentObj, idx) => (
-                                            <Card className="w-100" key={commentObj._id} index={idx}>
+                                            commentObj.movie_id === mediaObj._id ?
+                                            <Card className="w-100 mb-3" key={commentObj._id} index={idx}>
                                                 <Card.Header>
+                                                <DeleteComment deleteComment={this.deleteComment} commentId={commentObj._id}>x</DeleteComment>
                                                     <div className="mx-auto">
                                                         <div className="row align-items-center">
                                                             <div className="col-md-2 mb-3">
-                                                                <DeleteComment deleteComment={this.deleteComment} commentId={commentObj._id}>x</DeleteComment>
                                                             </div>
                                                             <div className="col-md text-center text-md-left">
                                                                 <h2>{this.props.properties.auth0.user.name}</h2>
@@ -246,34 +225,57 @@ class Profile extends React.Component {
                                                     </div>
                                                 </Card.Header>
                                                 <Card.Body>
-                                                    <Card.Title>{commentObj.user_rating}</Card.Title>
+                                                    <Card.Title>Rating: {commentObj.user_rating}</Card.Title>
                                                     <Card.Text>
                                                         {commentObj.comment}
                                                     </Card.Text>
                                                     <Update
-                                                        key={commentObj._id}
-                                                        comment={commentObj}
-                                                        idx={idx}
-                                                        movieId={this.state.movieId}
+                                                        commentId={commentObj._id}
                                                         displayUpdateForm={this.displayUpdateForm}
                                                     />
                                                     {this.state.showUpdate &&
                                                         <UpdateForm
-                                                            key={commentObj._id}
-                                                            updateComment={this.updateComment}
+                                                            commentId={this.state.currentComment}
+                                                            show={this.state.showUpdate}
+                                                            updateComments={this.updateComments}
                                                             handleShow={this.state.showUpdate}
                                                             handleClose={this.handleCloseUpdateForm}
                                                             updateUserComment={this.updateUserComment}
                                                             updateUserRating={this.updateUserRating}
+                                                            email={this.props.properties.auth0.user.email}
                                                         />
                                                     }
 
 
                                                     </Card.Body>
                                             </Card>
+                                            :
+                                            ''
                                         ))}
                                 </Row>
+                                <Row>
+                                    <AddComment
+                                        handleAddComment={this.handleAddComment}
+                                        movieId={mediaObj._id}>
+                                        Comment
+                                    </AddComment>
+                  
+                                {this.state.show &&
+                                    <CommentForm
+                                    movieId={this.state.currentId}
+                                    show={this.state.show}
+                                    addComment={this.props.addComment}
+                                    updateUserComment={this.props.updateUserComment}
+                                    updateUserRating={this.props.updateUserRating}
+                                    handleClose={this.handleClose}
+                                    email={this.props.properties.auth0.user.email} />
+                                }
+                                
+
+                                <Delete deleteMovie={this.deleteMovie} movieId={mediaObj._id}>x</Delete>
+                            </Row>
                             </Jumbotron>
+                            ))}
            </>
         )
     }

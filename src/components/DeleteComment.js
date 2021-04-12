@@ -6,6 +6,11 @@ class DeleteComment extends React.Component {
     return(
       <Button 
         className="bg-danger text-light"
+        style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+        }} 
         onClick={()=>this.props.deleteComment(this.props.commentId)}>
         X
       </Button>

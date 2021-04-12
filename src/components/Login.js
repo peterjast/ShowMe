@@ -7,15 +7,11 @@ import LoginButton from './LoginButton';
 class Login extends React.Component {
   render() {
     return(
-      <Card className="mx-auto mt-5" style={{ width: '18rem' }}>
+      <Card className="mx-auto bg-dark text-light" id="login" style={{ width: '18rem' }}>
         <Card.Body>
           <Card.Title>Log In</Card.Title>
           <Card.Text>
-            Demo Credentials:
-            <br></br>
-            Email address: demo@demo.com
-            <br></br>
-            Password: Demo1234!
+            Click the button to login
           </Card.Text>
           <LoginButton />
         </Card.Body>

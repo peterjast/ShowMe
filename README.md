@@ -1,8 +1,8 @@
 # ShowMe
 
-Contributers: Dan Engel && Jeremy Brazell && Peter Staker
+Contributers: Peter Staker && Dan Engel && Jeremy Brazell
 
-Sleuthify is a simple solution for exploring new movies. Users can discover movies, store them to their watchlist and add comments and ratings.
+ShowMe is a simple solution for exploring new movies. Users can discover movies, store them to their watchlist and add comments and ratings.
 
 ## Conflict Plan
 
